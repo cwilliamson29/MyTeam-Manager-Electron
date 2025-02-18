@@ -1,0 +1,46 @@
+.settings-bar {
+
+}
+
+.settings-icon {
+    height: 1.4em !important;
+}
+
+.settings-icon:hover {
+    cursor: pointer;
+    color: var(--text-color-clicked);
+}
+
+.box {
+    visibility: hidden;
+    transition: visibility .5s, max-height .5s;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0px 12px;
+    margin-bottom: 8px;
+}
+
+.box.open {
+    visibility: visible;
+    /* Set max-height to something bigger than the box could ever be */
+    max-height: 500px;
+}
+
+.w-10 {
+    margin-right: 20px;
+    width: 150px !important;
+}
+
+.w-20 {
+    margin-left: 20px !important;
+    width: 250px !important;
+}
+
+.checkbox-1 {
+    font-size: 14px;
+}
+
+.secondary {
+    background-color: #393939;
+    border-radius: 10px;
+}

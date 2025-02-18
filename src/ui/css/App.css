@@ -1,0 +1,18 @@
+:root {
+    --background-color-light: #d2d3db;
+    --text-color-light: #484b6a;
+    --background-color-dark: #273037;
+    --text-color-dark: #ffffff;
+    --text-color-clicked: #70ace4;
+}
+
+.dark-mode {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark) !important;
+}
+
+.light-mode {
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
+}
+

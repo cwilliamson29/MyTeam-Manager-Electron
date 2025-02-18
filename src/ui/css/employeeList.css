@@ -1,0 +1,104 @@
+/* Containers */
+.employee {
+    height: 35px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 15px;
+}
+
+.title {
+    height: 35px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 15px;
+    padding-top: 5px;
+}
+
+/* Backgrounds and Borders */
+.bg-slate {
+    background: #0c2945
+}
+
+.border-slate {
+    border-left-style: solid;
+    border-left-color: #3b5a77;
+    border-left-width: thin;
+}
+
+/* Time of day Colorings */
+.morning {
+    background: #ffe4c4;
+    color: #772e08;
+}
+
+.midDay {
+    background: #7f9c74;
+    color: #172b16;
+}
+
+.evening {
+    background: #798dd8;
+    color: #081e77;
+}
+
+.border-morning {
+    border-left-style: solid;
+    border-left-color: #3b5a77;
+    border-left-width: thin;
+}
+
+/* Child elements of the containers */
+
+.pad {
+    padding-top: 5px;
+}
+
+.time {
+    max-width: 16% !important;
+}
+
+.time-button {
+    background: none;
+    border: none;
+    font-weight: bold;
+}
+
+.title-button:hover {
+    cursor: pointer;
+    color: #70ace4 !important;
+}
+
+.title-buttons-clicked {
+    color: #70ace4 !important;
+}
+
+.days {
+    max-width: 9% !important;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.EEID {
+    max-width: 10% !important;
+}
+
+.titleWarnings {
+    max-width: 10% !important;
+
+}
+
+.empWarnings {
+    background: red;
+    color: white;
+    max-width: 10% !important;
+}
+
+.empWarningsNONE {
+    color: red;
+    max-width: 10% !important;
+    border-style: solid;
+    border-color: #3b5a77;
+    border-width: thin;
+}
