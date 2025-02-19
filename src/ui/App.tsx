@@ -13,6 +13,7 @@ import {
     sortByTimeAndName
 } from "./helpers/employeeList-helpers";
 import SettingsBar from "./components/SettingsBar";
+import sendAsync from '../electron/renderer'
 
 function App() {
     let [appLoad, setAppLoad] = React.useState(true)
@@ -34,8 +35,30 @@ function App() {
         setDummyList(array)
     }
 
+    const [message, setMessage] = React.useState('');
+    const [responses, setResponses] = React.useState([]);
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    function send(data) {
+        sendAsync(data).then((result) => setResponses([...responses, result]));
+    }
+
     if(appLoad){
         setAppLoad(false)
+        // saveDataInStorage({
+        //     id: 11,
+        //     shiftStart: "15:00",
+        //     shiftEnd: "02:00",
+        //     daysWorked: "--TWRFY",
+        //     firstName: "johnothang",
+        //     lastName: "blah ba blah",
+        //     email: "jgoodall@work.com",
+        //     EEID: "ccrcbland",
+        //     meetings: "bi-weekly",
+        //     meetingsDay: "wednesday",
+        //     warnings: "written"
+        // },)
         handleSort(timeAndNameSort)
     }
 
@@ -62,6 +85,34 @@ function App() {
                     nameSort={timeAndNameSort.firstName}
                 />
             })}
+            <div className="App">
+                <header className="App-header">
+                    <h1>
+                        Standalone application with Electron, React, and
+                        SQLite stack.
+                    </h1>
+                </header>
+                <article>
+                    <p>
+                        Say <i>ping</i> to the main process.
+                    </p>
+                    <input
+                        type="text"
+                        value={message}
+                        onChange={({ target: { value } }) => setMessage(value)}
+                    />
+                    <button type="button" onClick={() => send(message)}>
+                        Send
+                    </button>
+                    <br />
+                    <p>Main process responses:</p>
+                    <br />
+                    <pre>
+                    {(responses && responses.join('\n')) ||
+                        'the main process seems quiet!'}
+                </pre>
+                </article>
+            </div>
         </div>
     )
 }
