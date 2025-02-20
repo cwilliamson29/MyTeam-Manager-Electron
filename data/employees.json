@@ -1,0 +1,15 @@
+[
+	{
+		"id": 10,
+		"shiftStart": "15:00",
+		"shiftEnd": "02:00",
+		"daysWorked": "--TWRFY",
+		"firstName": "patty",
+		"lastName": "headbetter",
+		"email": "jgoodall@work.com",
+		"EEID": "ccrcbland",
+		"meetings": "bi-weekly",
+		"meetingsDay": "wednesday",
+		"warnings": "written"
+	}
+]
