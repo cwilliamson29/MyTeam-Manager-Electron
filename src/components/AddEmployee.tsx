@@ -1,12 +1,34 @@
 import {Button, Form, Tab, Tabs} from 'react-bootstrap';
 import {days, endTimes, meetingBasis, startTimes, warnings} from "../helpers/appSettings";
+import {useState} from "react";
+import {Employee} from "../employeeInterface.tsx";
 
 interface Props {
     show: boolean;
 }
 
 function AddEmployee({show}: Props) {
+    let [employee, setEmployee] = useState<Employee>({
+        id: 0,
+        shiftStart: '',
+        shiftEnd: '',
+        daysWorked: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        EEID: '',
+        meetings: '',
+        meetingsDay: '',
+        warnings: ''
+    })
+
     let hide = show ? " open" : "";
+
+    const handleSubmit = (e:any) => {
+        e.preventDefault();
+        console.log(employee)
+    }
+
     return (
         <div className={"box " + hide}>
             <Tabs
@@ -15,12 +37,13 @@ function AddEmployee({show}: Props) {
                 className="mb-3">
 
                 <Tab eventKey="addEmployee" title="Add Team Member">
-                    <Form>
+                    <Form onSubmit={handleSubmit}>
                         <div className="d-flex flex-row justify-content-start mb-3 secondary">
                             <Form.Group className="mb-3 ms-2" controlId="shiftStart">
                                 <Form.Label>Shift Start</Form.Label>
-                                <Form.Select id="shiftEnd" className="w-10">
-                                    {startTimes.map((time) => <option>{time}</option>)}
+                                <Form.Select id="shiftStart" className="w-10" value={employee.shiftStart} onChange={(e)=> setEmployee(currentState => ({...currentState, shiftStart: e.target.value}))}>
+                                    <option value=""></option>)
+                                    {startTimes.map((time) => <option value={time}>{time}</option>)}
                                 </Form.Select>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="shiftEnd">

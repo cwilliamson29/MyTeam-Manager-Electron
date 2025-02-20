@@ -10,6 +10,7 @@ import {
     sortByTimeAndName
 } from "./helpers/employeeList-helpers";
 import SettingsBar from "./components/SettingsBar";
+import {addEmployeeHelper} from "./helpers/addEmployeeHelper.tsx";
 
 function App() {
     let [appLoad, setAppLoad] = React.useState(true)
@@ -33,9 +34,10 @@ function App() {
 
     if(appLoad){
         setAppLoad(false)
+
         handleSort(timeAndNameSort)
     }
-
+    //addEmployeeHelper(dummyData2[0])
 
     return (
         <div className="App col d-md-flex flex-md-column justify-content-between">
@@ -59,6 +61,8 @@ function App() {
                     nameSort={timeAndNameSort.firstName}
                 />
             })}
+
+            <button onClick={() => addEmployeeHelper(dummyData2[0])}>Add Employee</button>
         </div>
     )
 }
