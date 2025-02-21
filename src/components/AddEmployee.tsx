@@ -21,12 +21,34 @@ function AddEmployee({show}: Props) {
         meetingsDay: '',
         warnings: ''
     })
+    let [checked, setChecked] = useState({sunday: false, monday: false, tuesday: false, wednesday: false, thursday: false, friday: false, saturday: false});
 
     let hide = show ? " open" : "";
 
     const handleSubmit = (e:any) => {
         e.preventDefault();
-        console.log(employee)
+
+        let daysWorked = ''
+        let daysAbrv = ["S", "M", "T", "W", "R", "F", "Y"]
+
+        for(let i = 0; i < 7; i++){
+            let day = days[i].toLowerCase();
+            // @ts-ignore
+            if(checked[day] === true){
+                daysWorked += daysAbrv[i]
+            }else{
+                daysWorked += "-"
+            }
+        }
+        setEmployee(currentState => ({...currentState, daysWorked: daysWorked}))
+        //console.log(employee)
+
+    }
+
+    const handleCheckBox =(e: any, key: string)=>{
+        let day = key.toLowerCase()
+        setChecked({...checked, [day]: e.target.checked})
+        //console.log("value is: " + e.target.checked + ", and key is: " + key)
     }
 
     return (
@@ -42,13 +64,14 @@ function AddEmployee({show}: Props) {
                             <Form.Group className="mb-3 ms-2" controlId="shiftStart">
                                 <Form.Label>Shift Start</Form.Label>
                                 <Form.Select id="shiftStart" className="w-10" value={employee.shiftStart} onChange={(e)=> setEmployee(currentState => ({...currentState, shiftStart: e.target.value}))}>
-                                    <option value=""></option>)
+                                    <option value=""></option>
                                     {startTimes.map((time) => <option value={time}>{time}</option>)}
                                 </Form.Select>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="shiftEnd">
                                 <Form.Label>Shift End</Form.Label>
-                                <Form.Select id="shiftEnd" className="w-10">
+                                <Form.Select id="shiftEnd" className="w-10" value={employee.shiftEnd} onChange={(e)=> setEmployee(currentState => ({...currentState, shiftEnd: e.target.value}))}>
+                                    <option value=""></option>
                                     {endTimes.map((time) => <option>{time}</option>)}
                                 </Form.Select>
                             </Form.Group>
@@ -61,7 +84,9 @@ function AddEmployee({show}: Props) {
                                         name={day}
                                         type="checkbox"
                                         id={day}
-                                        className="checkbox-1"/>
+                                        className="checkbox-1"
+                                        onChange={(e)=> handleCheckBox(e, day)}
+                                        />
                                     )}
                                 </div>
                             </div>
