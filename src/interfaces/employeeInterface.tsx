@@ -12,6 +12,19 @@ export interface Employee {
     warnings: string
 }
 
+export interface EmployeeValidation {
+    shiftStart: boolean,
+    shiftEnd: boolean,
+    daysWorked: boolean,
+    firstName: boolean,
+    lastName: boolean,
+    email: boolean,
+    EEID: boolean,
+    meetings: boolean,
+    meetingsDay: boolean,
+    warnings: boolean
+}
+
 // interface goes to EmployeeListTitle to allow sorting by time and name
 export interface EmployeeSorting {
     time: boolean;
