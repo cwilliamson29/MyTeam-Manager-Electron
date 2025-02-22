@@ -1,5 +1,5 @@
 import {EmployeeValidation} from "../interfaces/employeeInterface.tsx";
-
+// TODO: `Need to add settings functionality
 export let settings = {
     sortByTime: false,
     sortByFirstName: true,

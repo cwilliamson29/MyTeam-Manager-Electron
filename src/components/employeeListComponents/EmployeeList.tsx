@@ -34,7 +34,7 @@ function EmployeeList({
     // Arrange by First + Last ... or ... Last, First
     const firstLastName = titleCase(`${firstName + " " + lastName}`);
     const lastFirstName = titleCase(`${lastName + ", " + firstName}`);
-
+    // TODO: `Need to fix rendering of time by 12/24 hour`
     return (
         <div key={id}
              className={color + " d-flex flex-row align-items-center border-bottom border-dark justify-content-between employee"}>

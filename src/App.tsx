@@ -19,7 +19,7 @@ function App() {
     const setAppLoad = useAppLoadStore((state) => state.setAppLoad)
     let [employeeList, setEmployeeList] = useState<Employee[]>([]);
     let [timeAndNameSort, setTimeAndNameSort] = useState({time: false, firstName: true});
-
+    // TODO: `Decouple and add global state`
     useEffect(() => {
         async function fetchEmployees() {
             const employees = await getAllEmployees()
