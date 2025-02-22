@@ -5,6 +5,7 @@ import {Button, Form} from "react-bootstrap";
 import {
     days,
     employeeBooleanTemplate,
+    employeeTemplate,
     endTimes,
     meetingBasis,
     startTimes,
@@ -12,27 +13,16 @@ import {
 } from "../../helpers/appSettings.tsx";
 import {EmployeeValidator} from "../../helpers/TabOneValidation.tsx";
 import {EmployeeValidation} from "../../interfaces/employeeInterface.tsx";
+import {useAppLoadStore} from "../../state/store.ts";
 
-interface Props {
-    submit: () => boolean;
-}
 
-export default function TabOneAddSingleEmployee({submit}: Props) {
+export default function TabOneAddSingleEmployee() {
+    //const appLoad = useAppLoadStore((state) => state.appLoad)
+    const setAppLoad = useAppLoadStore((state) => state.setAppLoad)
+    const [successMsg, setSuccessMsg] = useState(false)
     let [error, setError] = useState<EmployeeValidation>(employeeBooleanTemplate)
     let [valid, setValid] = useState(true)
-    let [employee, setEmployee] = useState<Employee>({
-        id: 0,
-        shiftStart: '',
-        shiftEnd: '',
-        daysWorked: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        EEID: '',
-        meetings: '',
-        meetingsDay: '',
-        warnings: ''
-    })
+    let [employee, setEmployee] = useState<Employee>(employeeTemplate)
     let [checked, setChecked] = useState({
         sunday: false,
         monday: false,
@@ -83,9 +73,11 @@ export default function TabOneAddSingleEmployee({submit}: Props) {
         let result = EmployeeValidator(employee)
 
         if (result.result) {
+            setSuccessMsg(true)
             // Send to database via Dexie
-            submit(true);
             addEmployeeHelper(employee);
+            setEmployee(employeeTemplate)
+            setAppLoad()
         } else if (!result.result) {
             setError(result.error)
             setValid(false)
@@ -110,6 +102,11 @@ export default function TabOneAddSingleEmployee({submit}: Props) {
             {!valid &&
                 <div className="d-flex flex-row justify-content-start mb-3 ps-3 secondary bg-danger ">
                     <span>*Fields required</span>
+                </div>
+            }
+            {successMsg &&
+                <div className="d-flex flex-row justify-content-start mb-3 ps-3 secondary bg-success ">
+                    <span>Employee Added Successfully!</span>
                 </div>
             }
             <div className="d-flex flex-row justify-content-start mb-3 secondary">
@@ -161,6 +158,7 @@ export default function TabOneAddSingleEmployee({submit}: Props) {
                     <Form.Label>First Name</Form.Label>
                     <Form.Control type="text" placeholder="Jane"
                                   className={error.firstName ? "border border-2 border-danger" : ""}
+                                  value={employee.firstName}
                                   onChange={(e) => setEmployee(currentState => ({
                                       ...currentState,
                                       firstName: e.target.value
@@ -170,6 +168,7 @@ export default function TabOneAddSingleEmployee({submit}: Props) {
                     <Form.Label>Last Name</Form.Label>
                     <Form.Control type="text" placeholder="Doe"
                                   className={error.lastName ? "border border-2 border-danger" : ""}
+                                  value={employee.lastName}
                                   onChange={(e) => setEmployee(currentState => ({
                                       ...currentState,
                                       lastName: e.target.value
@@ -179,6 +178,7 @@ export default function TabOneAddSingleEmployee({submit}: Props) {
                     <Form.Label>Email Address</Form.Label>
                     <Form.Control type="text" placeholder="j.doe@example.com"
                                   className={error.email ? "border border-2 border-danger" : ""}
+                                  value={employee.email}
                                   onChange={(e) => setEmployee(currentState => ({
                                       ...currentState,
                                       email: e.target.value
@@ -188,6 +188,7 @@ export default function TabOneAddSingleEmployee({submit}: Props) {
                     <Form.Label>EE ID</Form.Label>
                     <Form.Control type="text" placeholder="CCRJDOE"
                                   className={error.email ? "border border-2 border-danger" : ""}
+                                  value={employee.EEID}
                                   onChange={(e) => setEmployee(currentState => ({
                                       ...currentState,
                                       EEID: e.target.value
@@ -201,6 +202,7 @@ export default function TabOneAddSingleEmployee({submit}: Props) {
                     <Form.Label>Meeting Frequency</Form.Label>
                     <Form.Select id="meetings"
                                  className={error.meetings ? "w-10 border border-2 border-danger" : "w-10"}
+                                 value={employee.meetings}
                                  onChange={(e) => setEmployee(currentState => ({
                                      ...currentState,
                                      meetings: e.target.value
@@ -212,11 +214,13 @@ export default function TabOneAddSingleEmployee({submit}: Props) {
                 <Form.Group className="mb-3 ms-2" controlId="meetingsDay">
                     <Form.Label>Meeting Day</Form.Label>
                     <Form.Select id="meetings"
-                                 className={error.meetings ? "w-10 border border-2 border-danger" : "w-10"}
+                                 className={error.meetingsDay ? "w-10 border border-2 border-danger" : "w-10"}
+                                 value={employee.meetingsDay}
                                  onChange={(e) => setEmployee(currentState => ({
                                      ...currentState,
                                      meetingsDay: e.target.value
                                  }))}>
+                        <option value="NONE">NONE</option>
                         <option value=""></option>
                         {days.map((day) => <option key={day} value={day}>{day}</option>)}
                     </Form.Select>
@@ -224,6 +228,7 @@ export default function TabOneAddSingleEmployee({submit}: Props) {
                 <Form.Group className="mb-3 ms-2" controlId="warnings">
                     <Form.Label>Warning</Form.Label>
                     <Form.Select id="warning" className={error.warnings ? "w-10 border border-2 border-danger" : "w-10"}
+                                 value={employee.warnings}
                                  onChange={(e) => setEmployee(currentState => ({
                                      ...currentState,
                                      warnings: e.target.value

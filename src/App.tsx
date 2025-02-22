@@ -1,5 +1,5 @@
 import EmployeeListTitle from "./components/EmployeeListTitle";
-import React, {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {EmployeeSorting} from "./interfaces/employeeInterface";
 import {
     sortByFirstName,
@@ -11,11 +11,14 @@ import SettingsBar from "./components/SettingsBar";
 import {DisplayEmployees} from "./components/DisplayEmployees.tsx";
 import {getAllEmployees} from "./helpers/getEmployeeHelper.tsx";
 import {Employee} from "./employeeInterface.tsx";
+import {useAppLoadStore} from "./state/store.ts";
 
 function App() {
-    let [appLoad, setAppLoad] = React.useState(true)
-    let [employeeList, setEmployeeList] = React.useState<Employee[]>([]);
-    let [timeAndNameSort, setTimeAndNameSort] = React.useState({time: false, firstName: true});
+    //let [appLoad, setAppLoad] = useState(true)
+    const appLoad = useAppLoadStore((state) => state.appLoad)
+    const setAppLoad = useAppLoadStore((state) => state.setAppLoad)
+    let [employeeList, setEmployeeList] = useState<Employee[]>([]);
+    let [timeAndNameSort, setTimeAndNameSort] = useState({time: false, firstName: true});
 
     useEffect(() => {
         async function fetchEmployees() {
@@ -41,7 +44,7 @@ function App() {
     }
 
     if (appLoad) {
-        setAppLoad(false)
+        setAppLoad()
         handleSort(timeAndNameSort)
     }
 
