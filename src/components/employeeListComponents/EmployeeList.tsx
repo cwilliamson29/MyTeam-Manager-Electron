@@ -1,4 +1,4 @@
-import {colorOfDay, titleCase} from "../helpers/employeeList-helpers";
+import {colorOfDay, titleCase} from "../../helpers/employeeList-helpers.tsx";
 
 interface Props {
     id: number;
@@ -30,7 +30,7 @@ function EmployeeList({
                           nameSort,
                       }: Props) {
     const color = colorOfDay(shiftStart)
-    
+
     // Arrange by First + Last ... or ... Last, First
     const firstLastName = titleCase(`${firstName + " " + lastName}`);
     const lastFirstName = titleCase(`${lastName + ", " + firstName}`);

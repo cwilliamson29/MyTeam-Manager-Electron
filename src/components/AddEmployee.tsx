@@ -1,7 +1,7 @@
 import {Tab, Tabs} from 'react-bootstrap';
-import TabOneAddSingleEmployee from "../helpers/TabOne-AddSingleEmployee.tsx";
-import TabTwoAddByExcel from "../helpers/TabTwo-AddByExcel.tsx";
-import TabThreeUpdateByExcel from "../helpers/TabThree-UpdateByExcel.tsx";
+import TabOneAddSingleEmployee from "./tabComponents/TabOne-AddSingleEmployee.tsx";
+import TabTwoAddByExcel from "./tabComponents/TabTwo-AddByExcel.tsx";
+import TabThreeUpdateByExcel from "./tabComponents/TabThree-UpdateByExcel.tsx";
 
 interface Props {
     show: boolean;

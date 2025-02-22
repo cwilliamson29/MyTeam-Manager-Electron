@@ -1,12 +1,23 @@
 import {useEffect, useState} from "react";
-import {Employee} from "../employeeInterface.tsx";
-import {addEmployeeHelper} from "./addEmployeeHelper.tsx";
+import {Employee} from "../../employeeInterface.tsx";
+import {addEmployeeHelper} from "../../helpers/addEmployeeHelper.tsx";
 import {Button, Form} from "react-bootstrap";
-import {days, employeeBooleanTemplate, endTimes, meetingBasis, startTimes, warnings} from "./appSettings.tsx";
-import {EmployeeValidator} from "./TabOneValidation.tsx";
-import {EmployeeValidation} from "../interfaces/employeeInterface.tsx";
+import {
+    days,
+    employeeBooleanTemplate,
+    endTimes,
+    meetingBasis,
+    startTimes,
+    warnings
+} from "../../helpers/appSettings.tsx";
+import {EmployeeValidator} from "../../helpers/TabOneValidation.tsx";
+import {EmployeeValidation} from "../../interfaces/employeeInterface.tsx";
 
-export default function TabOneAddSingleEmployee() {
+interface Props {
+    submit: () => boolean;
+}
+
+export default function TabOneAddSingleEmployee({submit}: Props) {
     let [error, setError] = useState<EmployeeValidation>(employeeBooleanTemplate)
     let [valid, setValid] = useState(true)
     let [employee, setEmployee] = useState<Employee>({
@@ -73,6 +84,7 @@ export default function TabOneAddSingleEmployee() {
 
         if (result.result) {
             // Send to database via Dexie
+            submit(true);
             addEmployeeHelper(employee);
         } else if (!result.result) {
             setError(result.error)
@@ -111,7 +123,7 @@ export default function TabOneAddSingleEmployee() {
                                      shiftStart: e.target.value
                                  }))}>
                         <option value=""></option>
-                        {startTimes.map((time) => <option value={time}>{time}</option>)}
+                        {startTimes.map((time) => <option key={time} value={time}>{time}</option>)}
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="shiftEnd">
@@ -124,13 +136,14 @@ export default function TabOneAddSingleEmployee() {
                                      shiftEnd: e.target.value
                                  }))}>
                         <option value=""></option>
-                        {endTimes.map((time) => <option>{time}</option>)}
+                        {endTimes.map((time) => <option key={time} value={time}>{time}</option>)}
                     </Form.Select>
                 </Form.Group>
                 <div className="d-flex flex-column">
                     <Form.Label>Days Worked:</Form.Label>
                     <div className="">
                         {days.map((day) => <Form.Check
+                                key={day}
                                 inline
                                 label={day}
                                 name={day}
@@ -193,7 +206,7 @@ export default function TabOneAddSingleEmployee() {
                                      meetings: e.target.value
                                  }))}>
                         <option value=""></option>
-                        {meetingBasis.map((basis) => <option value={basis}>{basis}</option>)}
+                        {meetingBasis.map((basis) => <option key={basis} value={basis}>{basis}</option>)}
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3 ms-2" controlId="meetingsDay">
@@ -205,7 +218,7 @@ export default function TabOneAddSingleEmployee() {
                                      meetingsDay: e.target.value
                                  }))}>
                         <option value=""></option>
-                        {days.map((day) => <option value={day}>{day}</option>)}
+                        {days.map((day) => <option key={day} value={day}>{day}</option>)}
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3 ms-2" controlId="warnings">
@@ -216,7 +229,7 @@ export default function TabOneAddSingleEmployee() {
                                      warnings: e.target.value
                                  }))}>
                         <option value=""></option>
-                        {warnings.map((warning) => <option value={warning}>{warning}</option>)}
+                        {warnings.map((warning) => <option key={warning} value={warning}>{warning}</option>)}
                     </Form.Select>
                 </Form.Group>
                 <div className="d-flex align-items-center">

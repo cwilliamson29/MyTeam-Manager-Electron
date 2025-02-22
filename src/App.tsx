@@ -1,8 +1,6 @@
-import EmployeeList from "./components/EmployeeList";
 import EmployeeListTitle from "./components/EmployeeListTitle";
-import {dummyData2} from "./helpers/dummyData";
-import React from "react";
-import { EmployeeSorting} from "./interfaces/employeeInterface";
+import React, {useEffect} from "react";
+import {EmployeeSorting} from "./interfaces/employeeInterface";
 import {
     sortByFirstName,
     sortByLastName,
@@ -10,16 +8,26 @@ import {
     sortByTimeAndName
 } from "./helpers/employeeList-helpers";
 import SettingsBar from "./components/SettingsBar";
-import {addEmployeeHelper} from "./helpers/addEmployeeHelper.tsx";
+import {DisplayEmployees} from "./components/DisplayEmployees.tsx";
+import {getAllEmployees} from "./helpers/getEmployeeHelper.tsx";
+import {Employee} from "./employeeInterface.tsx";
 
 function App() {
     let [appLoad, setAppLoad] = React.useState(true)
-    let [dummyList, setDummyList] = React.useState(dummyData2);
+    let [employeeList, setEmployeeList] = React.useState<Employee[]>([]);
     let [timeAndNameSort, setTimeAndNameSort] = React.useState({time: false, firstName: true});
 
+    useEffect(() => {
+        async function fetchEmployees() {
+            const employees = await getAllEmployees()
+            setEmployeeList(employees)
+        }
+
+        fetchEmployees()
+    }, []);
     const handleSort = (sort: EmployeeSorting) => {
         setTimeAndNameSort(sort)
-        let array = dummyList;
+        let array = employeeList;
         if (!sort.time && sort.firstName) {
             sortByFirstName(array);
         } else if (!sort.time && !sort.firstName) {
@@ -29,40 +37,21 @@ function App() {
         } else if (sort.time && !sort.firstName) {
             sortByTimeAndLastName(array)
         }
-        setDummyList(array)
+        setEmployeeList(array)
     }
 
-    if(appLoad){
+    if (appLoad) {
         setAppLoad(false)
-
         handleSort(timeAndNameSort)
     }
-    //addEmployeeHelper(dummyData2[0])
 
     return (
         <div className="App col d-md-flex flex-md-column justify-content-between">
-
             <SettingsBar/>
             <EmployeeListTitle setTimeReorder={handleSort}/>
+            <DisplayEmployees data={employeeList} timeAndNameSort={timeAndNameSort.firstName}/>
 
-            {dummyList.map((emp, i) => {
-                return <EmployeeList
-                    id={i}
-                    shiftStart={emp.shiftStart}
-                    shiftEnd={emp.shiftEnd}
-                    daysWorked={emp.daysWorked}
-                    firstName={emp.firstName}
-                    lastName={emp.lastName}
-                    email={emp.email}
-                    EEID={emp.EEID}
-                    meetings={emp.meetings}
-                    meetingsDay={emp.meetingsDay}
-                    warnings={emp.warnings}
-                    nameSort={timeAndNameSort.firstName}
-                />
-            })}
-
-            <button onClick={() => addEmployeeHelper(dummyData2[0])}>Add Employee</button>
+            {/*<button onClick={() => addEmployeeHelper(dummyData2[0])}>Add Employee</button>*/}
         </div>
     )
 }
