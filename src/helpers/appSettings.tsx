@@ -1,11 +1,35 @@
 import {EmployeeValidation} from "../interfaces/employeeInterface.tsx";
+import {db} from "./db.ts";
+import {useAppSettings} from "../state/store.ts";
+
 // TODO: `Need to add settings functionality
-export let settings = {
+export async function GetSettings() {
+    const loadSettings = useAppSettings((state) => state.setAppSettings)
+    const collection = db.settings.toCollection();
+    const result = await collection.first();
+
+    if (result === undefined) {
+        await db.settings.add({
+            sortByTime: false,
+            sortByFirstName: true,
+            colorMode: 'dark',
+            hours: 24,
+        })
+        //console.log("result is: " + result)
+    } else {
+        // console.log("failed: ")
+        // console.log(result)
+        loadSettings(result)
+    }
+}
+
+export let settingsTemplate = {
+
+    id: 0,
     sortByTime: false,
     sortByFirstName: true,
     colorMode: 'dark',
     hours: 24,
-
 }
 
 export const employeeBooleanTemplate: EmployeeValidation = {

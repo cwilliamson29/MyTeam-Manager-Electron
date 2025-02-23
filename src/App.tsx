@@ -12,8 +12,10 @@ import {DisplayEmployees} from "./components/DisplayEmployees.tsx";
 import {getAllEmployees} from "./helpers/getEmployeeHelper.tsx";
 import {Employee} from "./employeeInterface.tsx";
 import {useAppLoadStore} from "./state/store.ts";
+import {GetSettings} from "./helpers/appSettings.tsx";
 
 function App() {
+    //console.log(GetSettings())
     //let [appLoad, setAppLoad] = useState(true)
     const appLoad = useAppLoadStore((state) => state.appLoad)
     const setAppLoad = useAppLoadStore((state) => state.setAppLoad)
@@ -45,6 +47,7 @@ function App() {
 
     if (appLoad) {
         setAppLoad()
+        GetSettings()
         handleSort(timeAndNameSort)
     }
 

@@ -1,3 +1,12 @@
+export interface Settings {
+    id: number,
+    //dataSave: boolean,
+    sortByTime: boolean,
+    sortByFirstName: boolean,
+    colorMode: string,
+    hours: number,
+}
+
 export interface Employee {
     id: number,
     shiftStart: string,
