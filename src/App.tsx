@@ -10,26 +10,20 @@ import {
 import SettingsBar from "./components/SettingsBar";
 import {DisplayEmployees} from "./components/DisplayEmployees.tsx";
 import {getAllEmployees} from "./helpers/getEmployeeHelper.tsx";
-import {Employee} from "./employeeInterface.tsx";
-import {useAppLoadStore} from "./state/store.ts";
-import {GetSettings} from "./helpers/appSettings.tsx";
+import {Employee} from "./interfaces/employeeInterface.tsx";
+import {useAppLoadStore, useAppSettings} from "./state/store.ts";
 
 function App() {
-    //console.log(GetSettings())
-    //let [appLoad, setAppLoad] = useState(true)
     const appLoad = useAppLoadStore((state) => state.appLoad)
     const setAppLoad = useAppLoadStore((state) => state.setAppLoad)
+    const getAppSettings = useAppSettings((state) => state.getAppSettings)
+    const appSettings = useAppSettings((state) => state.appSettings)
     let [employeeList, setEmployeeList] = useState<Employee[]>([]);
     let [timeAndNameSort, setTimeAndNameSort] = useState({time: false, firstName: true});
-    // TODO: `Decouple and add global state`
-    useEffect(() => {
-        async function fetchEmployees() {
-            const employees = await getAllEmployees()
-            setEmployeeList(employees)
-        }
 
-        fetchEmployees()
-    }, []);
+    //getAppSettings()
+
+    // TODO: `Decouple and add global state`
     const handleSort = (sort: EmployeeSorting) => {
         setTimeAndNameSort(sort)
         let array = employeeList;
@@ -44,11 +38,29 @@ function App() {
         }
         setEmployeeList(array)
     }
+    // const fetchSettings = async () => {
+    //     try {
+    //         const result = await GetSettings();
+    //         setSettings(result)
+    //     } catch (err) {
+    //         console.log("Error fetching settings: " + err)
+    //     }
+    // }
+    useEffect(() => {
+        async function fetchEmployees() {
+            const employees = await getAllEmployees()
+            setEmployeeList(employees)
+        }
+
+        fetchEmployees()
+        handleSort(timeAndNameSort)
+        getAppSettings()
+        setAppLoad(false)
+    }, []);
+
 
     if (appLoad) {
-        setAppLoad()
-        GetSettings()
-        handleSort(timeAndNameSort)
+        return <div>Loading...</div>
     }
 
     return (
@@ -57,7 +69,7 @@ function App() {
             <EmployeeListTitle setTimeReorder={handleSort}/>
             <DisplayEmployees data={employeeList} timeAndNameSort={timeAndNameSort.firstName}/>
 
-            {/*<button onClick={() => addEmployeeHelper(dummyData2[0])}>Add Employee</button>*/}
+            <button onClick={() => console.log(appSettings)}>Add Employee</button>
         </div>
     )
 }

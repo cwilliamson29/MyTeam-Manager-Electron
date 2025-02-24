@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Employee} from "../../employeeInterface.tsx";
+import {Employee, EmployeeValidation} from "../../interfaces/employeeInterface.tsx";
 import {addEmployeeHelper} from "../../helpers/addEmployeeHelper.tsx";
 import {Button, Form} from "react-bootstrap";
 import {
@@ -12,7 +12,6 @@ import {
     warnings
 } from "../../helpers/appSettings.tsx";
 import {EmployeeValidator} from "../../helpers/TabOneValidation.tsx";
-import {EmployeeValidation} from "../../interfaces/employeeInterface.tsx";
 import {useAppLoadStore} from "../../state/store.ts";
 
 
@@ -77,7 +76,7 @@ export default function TabOneAddSingleEmployee() {
             // Send to database via Dexie
             addEmployeeHelper(employee);
             setEmployee(employeeTemplate)
-            setAppLoad()
+            setAppLoad(false)
         } else if (!result.result) {
             setError(result.error)
             setValid(false)

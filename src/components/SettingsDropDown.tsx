@@ -1,34 +1,26 @@
 import {ToggleButton, ToggleButtonGroup} from "react-bootstrap";
 import {useAppSettings} from "../state/store.ts";
-import {useState} from "react";
 
 interface Props {
     show: boolean;
 }
 
 function SettingsDropDown({show}: Props) {
-    //let [checked, setChecked] = React.useState(false);
-    const settings = useAppSettings((state) => state.appSettings)
-    const [tempSettings, setTempSettings] = useState(settings)
-
     let hide = show ? " open" : "";
 
+    const settings = useAppSettings.use.appSettings()
+    const setSettings = useAppSettings.use.setAppSettings()
+    const saveToDB = useAppSettings.use.saveAppSettingsDB()
     const buttonCreate = (forRole: string, con1: any, con2: any) => {
-        
+
         return (
-            <ToggleButtonGroup type="radio" name={forRole} className="mb-2 warning" value={tempSettings[forRole]}>
+            <ToggleButtonGroup type="radio" name={forRole} className="mb-2 warning" value={settings[forRole]}>
                 <ToggleButton id={forRole + "-toggle-1"}
-                              value={con1} className={"btn-dark"} onClick={() => setTempSettings(currentState => ({
-                    ...currentState,
-                    [forRole]: con1
-                }))}>
+                              value={con1} className={"btn-dark"} onClick={() => setSettings(forRole, con1)}>
                     {typeof con1 === "boolean" ? "Yes" : con1}
                 </ToggleButton>
                 <ToggleButton id={forRole + "-toggle-2"}
-                              value={con2} className={"btn-dark"} onClick={() => setTempSettings(currentState => ({
-                    ...currentState,
-                    [forRole]: con2
-                }))}>
+                              value={con2} className={"btn-dark"} onClick={() => setSettings(forRole, con2)}>
                     {typeof con2 === "boolean" ? "No" : con2}
                 </ToggleButton>
             </ToggleButtonGroup>
@@ -45,7 +37,7 @@ function SettingsDropDown({show}: Props) {
             <div className="pe-3 align-self-center">{buttonCreate("sortByFirstName", true, false)}</div>
             <div className="pe-3 align-self-center">Color Mode:</div>
             <div className="pe-3 align-self-center">{buttonCreate("colorMode", "light", "dark")}</div>
-            <button onClick={() => console.log(tempSettings)}>submit</button>
+            <button onClick={() => saveToDB()}>submit</button>
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import Dexie, {type EntityTable} from "dexie";
-import {Employee, Settings} from "../employeeInterface.tsx";
+import {Employee, Settings} from '../interfaces/employeeInterface.tsx'
 
 export const db = new Dexie("EmployeeDatabase") as Dexie & {
     employees: EntityTable<Employee, "id">;

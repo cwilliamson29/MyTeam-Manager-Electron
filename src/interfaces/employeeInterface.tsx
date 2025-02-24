@@ -1,6 +1,5 @@
 export interface Settings {
     id: number,
-    //dataSave: boolean,
     sortByTime: boolean,
     sortByFirstName: boolean,
     colorMode: string,

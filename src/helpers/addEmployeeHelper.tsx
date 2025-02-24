@@ -1,4 +1,4 @@
-import {Employee} from "../employeeInterface.tsx";
+import {Employee} from "../interfaces/employeeInterface.tsx";
 import {db} from "./db.ts";
 
 export const addEmployeeHelper = (empl: Employee) => {

@@ -1,5 +1,4 @@
-import {Employee} from "../employeeInterface.tsx";
-import {EmployeeValidation} from "../interfaces/employeeInterface.tsx";
+import {Employee, EmployeeValidation} from "../interfaces/employeeInterface.tsx";
 import {employeeBooleanTemplate} from "./appSettings.tsx";
 
 export function EmployeeValidator(employee: Employee) {
