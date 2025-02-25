@@ -1,4 +1,5 @@
 import {Employee} from "../interfaces/employeeInterface";
+import {civiTimes, militaryTimes} from "./appSettings.tsx";
 
 export const colorOfDay = (time: string) => {
     // Determining time of day for CSS coloring
@@ -33,6 +34,39 @@ export const css = (args: string) => {
         return ' title-buttons-clicked '
     }
 
+}
+
+// Convert to 24 hour times
+export const timeConvertT024 = (val: string) => {
+    let checkAM = val.toLowerCase().includes('am')
+
+    if (val === "12:00 PM" || val === "12:30 PM") {
+        return val.slice(0, 5)
+    } else if (val === "12:00 AM" || val === "12:30 AM") {
+        return "00:" + val.slice(3, 5)
+    } else if (checkAM) {
+        return val.slice(0, 5)
+    } else {
+        for (let i = 0; i < civiTimes.length; i++) {
+            if (val === civiTimes[i]) {
+                return militaryTimes[i]
+            }
+        }
+    }
+}
+// Convert to 24 hour times
+export const timeConvertT012 = (val: string) => {
+    if (val === "12:00" || val === "12:30") {
+        return val + " PM"
+    } else if (val === "00:00" || val === "00:30") {
+        return "12:" + val.slice(3, 5) + " AM"
+    } else {
+        for (let i = 0; i < militaryTimes.length; i++) {
+            if (val === militaryTimes[i]) {
+                return civiTimes[i]
+            }
+        }
+    }
 }
 
 // Sort by time and firstname

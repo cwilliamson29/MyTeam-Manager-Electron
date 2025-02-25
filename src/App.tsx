@@ -38,14 +38,7 @@ function App() {
         }
         setEmployeeList(array)
     }
-    // const fetchSettings = async () => {
-    //     try {
-    //         const result = await GetSettings();
-    //         setSettings(result)
-    //     } catch (err) {
-    //         console.log("Error fetching settings: " + err)
-    //     }
-    // }
+
     useEffect(() => {
         async function fetchEmployees() {
             const employees = await getAllEmployees()
@@ -67,9 +60,9 @@ function App() {
         <div className="App col d-md-flex flex-md-column justify-content-between">
             <SettingsBar/>
             <EmployeeListTitle setTimeReorder={handleSort}/>
-            <DisplayEmployees data={employeeList} timeAndNameSort={timeAndNameSort.firstName}/>
+            <DisplayEmployees data={employeeList}/>
 
-            <button onClick={() => console.log(appSettings)}>Add Employee</button>
+            {/*<button onClick={() => console.log(appSettings)}>Add Employee</button>*/}
         </div>
     )
 }

@@ -13,6 +13,7 @@ import {
 } from "../../helpers/appSettings.tsx";
 import {EmployeeValidator} from "../../helpers/TabOneValidation.tsx";
 import {useAppLoadStore} from "../../state/store.ts";
+import {timeConvertT024} from "../../helpers/employeeList-helpers.tsx";
 
 
 export default function TabOneAddSingleEmployee() {
@@ -119,7 +120,7 @@ export default function TabOneAddSingleEmployee() {
                                      shiftStart: e.target.value
                                  }))}>
                         <option value=""></option>
-                        {startTimes.map((time) => <option key={time} value={time}>{time}</option>)}
+                        {startTimes.map((time) => <option key={time} value={timeConvertT024(time)}>{time}</option>)}
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="shiftEnd">
@@ -132,7 +133,7 @@ export default function TabOneAddSingleEmployee() {
                                      shiftEnd: e.target.value
                                  }))}>
                         <option value=""></option>
-                        {endTimes.map((time) => <option key={time} value={time}>{time}</option>)}
+                        {endTimes.map((time) => <option key={time} value={timeConvertT024(time)}>{time}</option>)}
                     </Form.Select>
                 </Form.Group>
                 <div className="d-flex flex-column">
@@ -219,9 +220,9 @@ export default function TabOneAddSingleEmployee() {
                                      ...currentState,
                                      meetingsDay: e.target.value
                                  }))}>
-                        <option value="NONE">NONE</option>
                         <option value=""></option>
                         {days.map((day) => <option key={day} value={day}>{day}</option>)}
+                        <option value="NONE">NONE</option>
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3 ms-2" controlId="warnings">

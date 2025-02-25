@@ -1,4 +1,5 @@
-import {colorOfDay, titleCase} from "../../helpers/employeeList-helpers.tsx";
+import {colorOfDay, timeConvertT012, titleCase} from "../../helpers/employeeList-helpers.tsx";
+import {useAppSettings} from "../../state/store.ts";
 
 interface Props {
     id: number;
@@ -12,7 +13,6 @@ interface Props {
     meetings: string;
     meetingsDay: string;
     warnings: string;
-    nameSort: boolean;
 }
 
 function EmployeeList({
@@ -27,23 +27,26 @@ function EmployeeList({
                           meetings,
                           meetingsDay,
                           warnings,
-                          nameSort,
                       }: Props) {
     const color = colorOfDay(shiftStart)
-
+    const settings = useAppSettings.use.appSettings()
     // Arrange by First + Last ... or ... Last, First
     const firstLastName = titleCase(`${firstName + " " + lastName}`);
     const lastFirstName = titleCase(`${lastName + ", " + firstName}`);
+
+    //console.log(timeConvertT024("06:00 AM"))
+    //console.log(timeConvertT012("13:00"))
     // TODO: `Need to fix rendering of time by 12/24 hour`
     return (
         <div key={id}
              className={color + " d-flex flex-row align-items-center border-bottom border-dark justify-content-between employee"}>
             <div className="col flex-grow-1 h-100 time">
-                {shiftStart + " - " + shiftEnd}
+                {settings.hours === 12 ? `${timeConvertT012(shiftStart) + " - " + timeConvertT012(shiftEnd)}` : `${shiftStart + " - " + shiftEnd}`}
+
             </div>
             <div className={"border-" + color + " col-sm h-100 days"}>{daysWorked}</div>
             <div className={"border-" + color + " col h-100 name"}>
-                {nameSort ? firstLastName : lastFirstName}
+                {settings.sortByFirstName ? firstLastName : lastFirstName}
             </div>
             <div className={"border-" + color + " col h-100 email"}>{email}</div>
             <div className={"border-" + color + " col h-100 EEID"}>{EEID.toUpperCase()}</div>

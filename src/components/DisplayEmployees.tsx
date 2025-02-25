@@ -3,10 +3,9 @@ import {Employee} from "../interfaces/employeeInterface.tsx";
 
 interface Props {
     data: Employee[];
-    timeAndNameSort: boolean;
 }
 
-export const DisplayEmployees = ({data, timeAndNameSort}: Props) => {
+export const DisplayEmployees = ({data}: Props) => {
 
     return (
         <>
@@ -24,7 +23,6 @@ export const DisplayEmployees = ({data, timeAndNameSort}: Props) => {
                     meetings={emp.meetings}
                     meetingsDay={emp.meetingsDay}
                     warnings={emp.warnings}
-                    nameSort={timeAndNameSort}
                 />
             })}
         </>

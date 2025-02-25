@@ -5,13 +5,13 @@ export const addEmployeeHelper = (empl: Employee) => {
     const shiftStart = empl.shiftStart;
     const shiftEnd = empl.shiftEnd;
     const daysWorked = empl.daysWorked;
-    const firstName = empl.firstName;
-    const lastName = empl.lastName;
-    const email = empl.email;
-    const EEID = empl.EEID;
-    const meetings = empl.meetings;
-    const meetingsDay = empl.meetingsDay;
-    const warnings = empl.warnings;
+    const firstName = empl.firstName.toLowerCase();
+    const lastName = empl.lastName.toLowerCase();
+    const email = empl.email.toLowerCase();
+    const EEID = empl.EEID.toLowerCase();
+    const meetings = empl.meetings.toLowerCase();
+    const meetingsDay = empl.meetingsDay.toLowerCase();
+    const warnings = empl.warnings.toLowerCase();
 
     async function addEmployee() {
         try {
