@@ -12,13 +12,13 @@ import {
     warnings
 } from "../../helpers/appSettings.tsx";
 import {EmployeeValidator} from "../../helpers/TabOneValidation.tsx";
-import {useAppLoadStore} from "../../state/store.ts";
+import {useAppLoad} from "../../state/store.ts";
 import {timeConvertT024} from "../../helpers/employeeList-helpers.tsx";
 
 
 export default function TabOneAddSingleEmployee() {
     //const appLoad = useAppLoadStore((state) => state.appLoad)
-    const setAppLoad = useAppLoadStore((state) => state.setAppLoad)
+    const setAppLoad = useAppLoad.use.setAppLoad()
     const [successMsg, setSuccessMsg] = useState(false)
     let [error, setError] = useState<EmployeeValidation>(employeeBooleanTemplate)
     let [valid, setValid] = useState(true)

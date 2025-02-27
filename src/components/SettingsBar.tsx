@@ -3,8 +3,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from 'react';
 import SettingsDropDown from "./SettingsDropDown";
 import AddEmployee from "./AddEmployee";
+import {useAppSettings} from "../state/store.ts";
 
 function SettingsBar() {
+    const settings = useAppSettings.use.appSettings()
     let [settingVisible, setSettingVisible] = React.useState(false);
     let [addEmpVisible, setAddEmpVisible] = React.useState(false);
 
@@ -17,7 +19,7 @@ function SettingsBar() {
         setAddEmpVisible(!addEmpVisible)
     }
     return (
-        <div className="dark-mode">
+        <div className={settings.colorMode + "-mode"}>
             <div className="d-flex justify-content-between pt-2 pb-2 settings-bar">
                 <div className="ps-3"><h4>MyTeam Manager</h4></div>
                 <div className="d-flex justify-content-end align-content-center">

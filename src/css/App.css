@@ -16,3 +16,7 @@
     color: var(--text-color-light);
 }
 
+.titleBar {
+    app-region: drag;
+    height: 30px;
+}

@@ -2,6 +2,7 @@ import {Employee} from "../interfaces/employeeInterface";
 import {civiTimes, militaryTimes} from "./appSettings.tsx";
 
 export const colorOfDay = (time: string) => {
+
     // Determining time of day for CSS coloring
     const morning = ["06", "07", "08", "09", "10"];
     const midDay = ["11", "12", "13"];
@@ -71,7 +72,7 @@ export const timeConvertT012 = (val: string) => {
 
 // Sort by time and firstname
 export const sortByTimeAndName = (array: Employee[]) => {
-    console.log(array)
+    //console.log(array)
     array.sort((a, b) => {
         if (a.shiftStart > b.shiftStart) return 1;
         if (a.shiftStart < b.shiftStart) return -1;
@@ -79,7 +80,7 @@ export const sortByTimeAndName = (array: Employee[]) => {
         if (a.firstName < b.firstName) return -1;
         return 0;
     });
-    console.log(array)
+    //console.log(array)
 }
 // Sort by time and firstname
 export const sortByTimeAndLastName = (array: Employee[]) => {

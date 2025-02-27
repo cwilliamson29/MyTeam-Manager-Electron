@@ -1,15 +1,13 @@
 import EmployeeList from "./employeeListComponents/EmployeeList.tsx";
 import {Employee} from "../interfaces/employeeInterface.tsx";
+import {useEmployeeData} from "../state/store.ts";
 
-interface Props {
-    data: Employee[];
-}
-
-export const DisplayEmployees = ({data}: Props) => {
+export const DisplayEmployees = () => {
+    const employees = useEmployeeData.use.employees()
 
     return (
         <>
-            {data.map((emp: Employee) => {
+            {employees.map((emp: Employee) => {
                 return <EmployeeList
                     key={emp.id}
                     id={emp.id}

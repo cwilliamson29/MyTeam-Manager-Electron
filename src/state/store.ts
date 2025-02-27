@@ -1,16 +1,22 @@
 import {create} from "zustand/react";
-import {Settings} from "../interfaces/employeeInterface.tsx";
+import {Employee, Settings} from "../interfaces/employeeInterface.tsx";
 import {db} from "../helpers/db.ts";
 import createSelectors from './selectors.ts'
+import {
+    sortByFirstName,
+    sortByLastName,
+    sortByTimeAndLastName,
+    sortByTimeAndName
+} from "../helpers/employeeList-helpers.tsx";
 
 
-// AppLoadStore - Determine if app has been loaded
-type AppLoadStore = {
+// AppLoad - Determine if app has been loaded
+type AppLoad = {
     appLoad: boolean;
     setAppLoad: (val: boolean) => void;
 }
 
-export const useAppLoadStore = create<AppLoadStore>((set) => ({
+const appLoad = create<AppLoad>((set) => ({
     appLoad: true,
     setAppLoad: (val: boolean) => {
         set(() => ({appLoad: val}))
@@ -33,11 +39,13 @@ const appSettings = create<AppSettings>((set) => ({
         colorMode: '',
         hours: 24,
     },
-    setAppSettings: (data, val) =>
+    setAppSettings: (data, val) => {
         set((state) => ({
             ...state, // u need pass state here...
             appSettings: {...state.appSettings, [data]: val},
-        })),
+        }))
+        useEmployeeData.getState().setEmployees()
+    },
     getAppSettings: async () => {
         const result = await db.settings.toCollection().first();
         if (result === undefined) {
@@ -48,9 +56,46 @@ const appSettings = create<AppSettings>((set) => ({
     },
     saveAppSettingsDB: () => {
         const val = appSettings.getState().appSettings
-        console.log(val)
+        //console.log(val)
         db.settings.update(val.id, val)
     }
 }))
 
+// EmployeeData - Get and save employee data to state
+type EmployeeData = {
+    employees: Employee[];
+    getEmployees: () => void;
+    setEmployees: () => void;
+}
+const employeeData = create<EmployeeData>((set) => ({
+    employees: [],
+    getEmployees: async () => {
+        const result = await db.employees.toArray();
+        if (result === undefined) {
+            console.log("Data not avail")
+        } else {
+            set(() => ({employees: result}))
+        }
+    },
+    // setEmployees: (data) => set(() => ({employees: data}))
+    setEmployees: () => {
+        const sortByTime = appSettings.getState().appSettings.sortByTime
+        const sortByName = appSettings.getState().appSettings.sortByFirstName
+
+        const array = employeeData.getState().employees
+        if (!sortByTime && sortByName) {
+            sortByFirstName(array);
+        } else if (!sortByTime && !sortByName) {
+            sortByLastName(array);
+        } else if (sortByTime && sortByName) {
+            sortByTimeAndName(array);
+        } else if (sortByTime && !sortByName) {
+            sortByTimeAndLastName(array)
+        }
+        set(() => ({employees: array}))
+    }
+}))
+
 export const useAppSettings = createSelectors(appSettings)
+export const useAppLoad = createSelectors(appLoad)
+export const useEmployeeData = createSelectors(employeeData)

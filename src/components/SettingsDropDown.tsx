@@ -37,7 +37,7 @@ function SettingsDropDown({show}: Props) {
             <div className="pe-3 align-self-center">{buttonCreate("sortByFirstName", true, false)}</div>
             <div className="pe-3 align-self-center">Color Mode:</div>
             <div className="pe-3 align-self-center">{buttonCreate("colorMode", "light", "dark")}</div>
-            <button onClick={() => saveToDB()}>submit</button>
+            <button className="btn btn-primary" onClick={() => saveToDB()}>Save</button>
         </div>
     );
 }
