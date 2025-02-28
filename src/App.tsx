@@ -6,18 +6,21 @@ import {useAppLoad, useAppSettings, useEmployeeData} from "./state/store.ts";
 import {AddDummyData} from "./helpers/dummyData.tsx";
 
 function App() {
+    // AppLoad
     const appLoad = useAppLoad.use.appLoad()
     const setAppLoad = useAppLoad.use.setAppLoad()
-    const getAppSettings = useAppSettings((state) => state.getAppSettings)
+    // Settings state
+    const getAppSettings = useAppSettings.use.getAppSettings()
+    const settings = useAppSettings.use.appSettings()
+    // Employee state
     const getEmployees = useEmployeeData.use.getEmployees()
-
-    const settings = useAppSettings((state) => state.appSettings)
-
+    
     useEffect(() => {
         getEmployees()
         getAppSettings()
         setAppLoad(false)
     }, []);
+
 
     useLayoutEffect(() => {
         document.body.style.backgroundColor = `var(--background-color-${settings.colorMode})`

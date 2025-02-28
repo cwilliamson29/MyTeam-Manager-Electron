@@ -76,6 +76,7 @@ const employeeData = create<EmployeeData>((set) => ({
         } else {
             set(() => ({employees: result}))
         }
+        employeeData.getState().setEmployees()
     },
     // setEmployees: (data) => set(() => ({employees: data}))
     setEmployees: () => {

@@ -42,6 +42,8 @@ function EmployeeListTitle() {
 
     useEffect(() => {
         setAppLoad(true)
+        setEmployees()
+        
         if (settings.sortByTime) {
             setTimeClick(' title-buttons-clicked ')
             console.log("true: " + settings.sortByTime)
@@ -54,7 +56,7 @@ function EmployeeListTitle() {
         } else {
             setNameClick('')
         }
-        setEmployees()
+        // setEmployees()
         setAppLoad(false)
     }, [settings]);
 
