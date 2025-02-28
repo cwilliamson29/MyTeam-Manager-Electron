@@ -46,8 +46,5 @@ export function EmployeeValidator(employee: Employee) {
         error.warnings = true;
     }
 
-    console.log("Validation")
-    console.log(employee)
-
     return {result: result, error: error};
 }

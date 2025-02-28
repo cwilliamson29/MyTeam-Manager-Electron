@@ -2,22 +2,16 @@ import {useEffect, useState} from "react";
 import {Employee, EmployeeValidation} from "../../interfaces/employeeInterface.tsx";
 import {addEmployeeHelper} from "../../helpers/addEmployeeHelper.tsx";
 import {Button, Form} from "react-bootstrap";
-import {
-    days,
-    employeeBooleanTemplate,
-    employeeTemplate,
-    endTimes,
-    meetingBasis,
-    startTimes,
-    warnings
-} from "../../helpers/appSettings.tsx";
+import {days, employeeBooleanTemplate, employeeTemplate, endTimes, meetingBasis, startTimes, warnings} from "../../helpers/appSettings.tsx";
 import {EmployeeValidator} from "../../helpers/TabOneValidation.tsx";
-import {useAppLoad} from "../../state/store.ts";
-import {timeConvertT024} from "../../helpers/employeeList-helpers.tsx";
+import {useAppLoad, useEmployeeData} from "../../state/store.ts";
+import SelectBoxTime from "../TailwindElements/selectBox-Time.tsx";
+import CheckBox from "../TailwindElements/checkBox.tsx";
+import TextBox from "../TailwindElements/textBox.tsx";
 
 
 export default function TabOneAddSingleEmployee() {
-    //const appLoad = useAppLoadStore((state) => state.appLoad)
+    const getEmployees = useEmployeeData.use.getEmployees()
     const setAppLoad = useAppLoad.use.setAppLoad()
     const [successMsg, setSuccessMsg] = useState(false)
     let [error, setError] = useState<EmployeeValidation>(employeeBooleanTemplate)
@@ -77,6 +71,7 @@ export default function TabOneAddSingleEmployee() {
             // Send to database via Dexie
             addEmployeeHelper(employee);
             setEmployee(employeeTemplate)
+            getEmployees()
             setAppLoad(false)
         } else if (!result.result) {
             setError(result.error)
@@ -95,10 +90,16 @@ export default function TabOneAddSingleEmployee() {
         setChecked({...checked, [day]: e.target.checked})
         //console.log("value is: " + e.target.checked + ", and key is: " + key)
     }
+    const setterProp = (key: string, val: string) => {
+        setEmployee(currentState => ({
+            ...currentState,
+            [key]: val
+        }))
+    }
 
     return (
 
-        <Form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
             {!valid &&
                 <div className="d-flex flex-row justify-content-start mb-3 ps-3 secondary bg-danger ">
                     <span>*Fields required</span>
@@ -109,95 +110,31 @@ export default function TabOneAddSingleEmployee() {
                     <span>Employee Added Successfully!</span>
                 </div>
             }
-            <div className="d-flex flex-row justify-content-start mb-3 secondary">
-                <Form.Group className="mb-3 ms-2" controlId="shiftStart">
-                    <Form.Label>Shift Start</Form.Label>
-                    <Form.Select id="shiftStart"
-                                 className={error.shiftStart ? "w-10 border border-2 border-danger" : "w-10"}
-                                 value={employee.shiftStart}
-                                 onChange={(e) => setEmployee(currentState => ({
-                                     ...currentState,
-                                     shiftStart: e.target.value
-                                 }))}>
-                        <option value=""></option>
-                        {startTimes.map((time) => <option key={time} value={timeConvertT024(time)}>{time}</option>)}
-                    </Form.Select>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="shiftEnd">
-                    <Form.Label>Shift End</Form.Label>
-                    <Form.Select id="shiftEnd"
-                                 className={error.shiftEnd ? "w-10 border border-2 border-danger" : "w-10"}
-                                 value={employee.shiftEnd}
-                                 onChange={(e) => setEmployee(currentState => ({
-                                     ...currentState,
-                                     shiftEnd: e.target.value
-                                 }))}>
-                        <option value=""></option>
-                        {endTimes.map((time) => <option key={time} value={timeConvertT024(time)}>{time}</option>)}
-                    </Form.Select>
-                </Form.Group>
-                <div className="d-flex flex-column">
-                    <Form.Label>Days Worked:</Form.Label>
-                    <div className="">
-                        {days.map((day) => <Form.Check
-                                key={day}
-                                inline
-                                label={day}
-                                name={day}
-                                type="checkbox"
-                                id={day}
-                                className="checkbox-1"
-                                onChange={(e) => handleCheckBox(e, day)}
-                            />
-                        )}
-                    </div>
-                </div>
+            <div className="flex bg-slate-900 text-white rounded-lg mb-2 p-2">
+                <SelectBoxTime name="Shift Start" keyValue="shiftStart" time={startTimes} error={error.shiftStart}
+                               value={employee.shiftStart}
+                               setter={setterProp}/>
+                <SelectBoxTime name="Shift End" keyValue="shiftEnd" time={endTimes} error={error.shiftEnd}
+                               value={employee.shiftEnd}
+                               setter={setterProp}/>
+
+                <fieldset className="flex">
+                    <legend className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Days Worked:</legend>
+                    {days.map((day) => <CheckBox day={day} onChange={handleCheckBox}/>
+                    )}
+                </fieldset>
+
             </div>
-            <div className="d-flex flex-row justify-content-start p-1 mb-3 secondary">
-                <Form.Group className="mb-3 w-10 ms-1" controlId="firstName">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control type="text" placeholder="Jane"
-                                  className={error.firstName ? "border border-2 border-danger" : ""}
-                                  value={employee.firstName}
-                                  onChange={(e) => setEmployee(currentState => ({
-                                      ...currentState,
-                                      firstName: e.target.value
-                                  }))}/>
-                </Form.Group>
-                <Form.Group className="mb-3 w-10" controlId="lastName">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control type="text" placeholder="Doe"
-                                  className={error.lastName ? "border border-2 border-danger" : ""}
-                                  value={employee.lastName}
-                                  onChange={(e) => setEmployee(currentState => ({
-                                      ...currentState,
-                                      lastName: e.target.value
-                                  }))}/>
-                </Form.Group>
-                <Form.Group className="mb-3 w-20" controlId="email">
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control type="text" placeholder="j.doe@example.com"
-                                  className={error.email ? "border border-2 border-danger" : ""}
-                                  value={employee.email}
-                                  onChange={(e) => setEmployee(currentState => ({
-                                      ...currentState,
-                                      email: e.target.value
-                                  }))}/>
-                </Form.Group>
-                <Form.Group className="mb-3 w-20" controlId="EEID">
-                    <Form.Label>EE ID</Form.Label>
-                    <Form.Control type="text" placeholder="CCRJDOE"
-                                  className={error.email ? "border border-2 border-danger" : ""}
-                                  value={employee.EEID}
-                                  onChange={(e) => setEmployee(currentState => ({
-                                      ...currentState,
-                                      EEID: e.target.value
-                                  }))}/>
-                </Form.Group>
+            <div className="flex bg-slate-900 text-white rounded-lg mb-2 p-2">
+                <TextBox name="First Name" type="text" placeHolder="John" value={employee.firstName} keyValue={"firstName"} setter={setterProp}/>
+                <TextBox name={"Last Name"} type={"text"} placeHolder={"Dingus"} value={employee.lastName} keyValue={"lastName"} setter={setterProp}/>
+                <TextBox name={"Email Address"} type={"email"} placeHolder={"jdingus@work.com"} value={employee.email} keyValue={"email"} setter={setterProp}/>
+                <TextBox name={"EE ID"} type={"text"} placeHolder={"CCRJDINGUS"} value={employee.EEID} keyValue={"EEID"} setter={setterProp}/>
+
             </div>
 
 
-            <div className="d-flex flex-row justify-content-start p-1 mb-3 secondary">
+            <div className="flex bg-slate-900 text-white rounded-lg mb-2 p-2">
                 <Form.Group className="mb-3 ms-2" controlId="meetings">
                     <Form.Label>Meeting Frequency</Form.Label>
                     <Form.Select id="meetings"
@@ -245,7 +182,7 @@ export default function TabOneAddSingleEmployee() {
 
             </div>
 
-        </Form>
+        </form>
 
     )
 }

@@ -13,7 +13,7 @@ function EmployeeListTitle() {
     const setSettings = useAppSettings.use.setAppSettings()
     // Employee database
     const setEmployees = useEmployeeData.use.setEmployees()
-    // State to change CSS styles and sort, uses the SortClick interface
+    // State to change CSS styles
     let [timeClick, setTimeClick] = React.useState('')
     let [nameClick, setNameClick] = React.useState(' title-buttons-clicked ')
 
@@ -43,13 +43,11 @@ function EmployeeListTitle() {
     useEffect(() => {
         setAppLoad(true)
         setEmployees()
-        
+
         if (settings.sortByTime) {
             setTimeClick(' title-buttons-clicked ')
-            console.log("true: " + settings.sortByTime)
         } else {
             setTimeClick('')
-            console.log("false: " + settings.sortByTime)
         }
         if (settings.sortByFirstName) {
             setNameClick(' title-buttons-clicked ')

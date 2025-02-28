@@ -43,7 +43,19 @@
 
 .border-morning {
     border-left-style: solid;
-    border-left-color: #3b5a77;
+    border-left-color: #989270 !important;
+    border-left-width: thin;
+}
+
+.border-midDay {
+    border-left-style: solid;
+    border-left-color: #4f674c !important;
+    border-left-width: thin;
+}
+
+.border-evening {
+    border-left-style: solid;
+    border-left-color: #3b5a77 !important;
     border-left-width: thin;
 }
 
@@ -96,9 +108,5 @@
 }
 
 .empWarningsNONE {
-    color: red;
     max-width: 10% !important;
-    border-style: solid;
-    border-color: #3b5a77;
-    border-width: thin;
 }
