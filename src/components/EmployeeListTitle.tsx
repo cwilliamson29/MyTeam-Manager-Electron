@@ -27,7 +27,6 @@ function EmployeeListTitle() {
             setTimeClick(args)
             setSettings("sortByTime", true)
         }
-        setEmployees()
     }
     // handleNameClick function that takes the properties as an object and stores them in
     // state and returns them to the main element with setTimeReorder
@@ -39,20 +38,23 @@ function EmployeeListTitle() {
             setNameClick(args)
             setSettings("sortByFirstName", true)
         }
-        setEmployees()
     }
 
     useEffect(() => {
+        setAppLoad(true)
         if (settings.sortByTime) {
             setTimeClick(' title-buttons-clicked ')
+            console.log("true: " + settings.sortByTime)
         } else {
             setTimeClick('')
+            console.log("false: " + settings.sortByTime)
         }
         if (settings.sortByFirstName) {
             setNameClick(' title-buttons-clicked ')
         } else {
             setNameClick('')
         }
+        setEmployees()
         setAppLoad(false)
     }, [settings]);
 
