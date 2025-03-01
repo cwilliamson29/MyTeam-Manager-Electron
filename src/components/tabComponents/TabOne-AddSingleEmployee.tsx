@@ -1,13 +1,13 @@
 import {useEffect, useState} from "react";
 import {Employee, EmployeeValidation} from "../../interfaces/employeeInterface.tsx";
 import {addEmployeeHelper} from "../../helpers/addEmployeeHelper.tsx";
-import {Button, Form} from "react-bootstrap";
 import {days, employeeBooleanTemplate, employeeTemplate, endTimes, meetingBasis, startTimes, warnings} from "../../helpers/appSettings.tsx";
 import {EmployeeValidator} from "../../helpers/TabOneValidation.tsx";
 import {useAppLoad, useEmployeeData} from "../../state/store.ts";
 import SelectBoxTime from "../TailwindElements/selectBox-Time.tsx";
 import CheckBox from "../TailwindElements/checkBox.tsx";
 import TextBox from "../TailwindElements/textBox.tsx";
+import SelectBox from "../TailwindElements/selectBox.tsx";
 
 
 export default function TabOneAddSingleEmployee() {
@@ -106,7 +106,7 @@ export default function TabOneAddSingleEmployee() {
                 </div>
             }
             {successMsg &&
-                <div className="d-flex flex-row justify-content-start mb-3 ps-3 secondary bg-success ">
+                <div className="flex bg-emerald-500 text-black rounded-md p-2 pl-5 mb-2">
                     <span>Employee Added Successfully!</span>
                 </div>
             }
@@ -120,7 +120,7 @@ export default function TabOneAddSingleEmployee() {
 
                 <fieldset className="flex">
                     <legend className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Days Worked:</legend>
-                    {days.map((day) => <CheckBox day={day} onChange={handleCheckBox}/>
+                    {days.map((day) => <CheckBox key={day} day={day} onChange={handleCheckBox}/>
                     )}
                 </fieldset>
 
@@ -135,50 +135,14 @@ export default function TabOneAddSingleEmployee() {
 
 
             <div className="flex bg-slate-900 text-white rounded-lg mb-2 p-2">
-                <Form.Group className="mb-3 ms-2" controlId="meetings">
-                    <Form.Label>Meeting Frequency</Form.Label>
-                    <Form.Select id="meetings"
-                                 className={error.meetings ? "w-10 border border-2 border-danger" : "w-10"}
-                                 value={employee.meetings}
-                                 onChange={(e) => setEmployee(currentState => ({
-                                     ...currentState,
-                                     meetings: e.target.value
-                                 }))}>
-                        <option value=""></option>
-                        {meetingBasis.map((basis) => <option key={basis} value={basis}>{basis}</option>)}
-                    </Form.Select>
-                </Form.Group>
-                <Form.Group className="mb-3 ms-2" controlId="meetingsDay">
-                    <Form.Label>Meeting Day</Form.Label>
-                    <Form.Select id="meetings"
-                                 className={error.meetingsDay ? "w-10 border border-2 border-danger" : "w-10"}
-                                 value={employee.meetingsDay}
-                                 onChange={(e) => setEmployee(currentState => ({
-                                     ...currentState,
-                                     meetingsDay: e.target.value
-                                 }))}>
-                        <option value=""></option>
-                        {days.map((day) => <option key={day} value={day}>{day}</option>)}
-                        <option value="NONE">NONE</option>
-                    </Form.Select>
-                </Form.Group>
-                <Form.Group className="mb-3 ms-2" controlId="warnings">
-                    <Form.Label>Warning</Form.Label>
-                    <Form.Select id="warning" className={error.warnings ? "w-10 border border-2 border-danger" : "w-10"}
-                                 value={employee.warnings}
-                                 onChange={(e) => setEmployee(currentState => ({
-                                     ...currentState,
-                                     warnings: e.target.value
-                                 }))}>
-                        <option value=""></option>
-                        {warnings.map((warning) => <option key={warning} value={warning}>{warning}</option>)}
-                    </Form.Select>
-                </Form.Group>
-                <div className="d-flex align-items-center">
-                    <Button variant="primary" type="submit">
-                        Add Team Member
-                    </Button>
-                </div>
+                <SelectBox name={"Meeting Frequency"} keyValue={"meetings"} arr={meetingBasis} error={error.meetings} value={employee.meetings} setter={setterProp}/>
+                <SelectBox name={"Meeting Day"} keyValue={"meetingsDay"} arr={days} error={error.meetingsDay} value={employee.meetingsDay} setter={setterProp}/>
+                <SelectBox name={"Warnings"} keyValue={"warnings"} arr={warnings} error={error.warnings} value={employee.warnings} setter={setterProp}/>
+                <button type="submit"
+                        className="ml-5 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1 text-center me-2 mb-2">
+                    Add Team Member
+                </button>
+
 
             </div>
 

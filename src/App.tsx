@@ -14,7 +14,7 @@ function App() {
     const settings = useAppSettings.use.appSettings()
     // Employee state
     const getEmployees = useEmployeeData.use.getEmployees()
-    
+
     useEffect(() => {
         getEmployees()
         getAppSettings()
@@ -31,7 +31,7 @@ function App() {
     }
 
     return (
-        <div className="App col d-md-flex flex-md-column justify-content-between">
+        <div className="container-fluid">
             <div className="titleBar"></div>
             <SettingsBar/>
             <EmployeeListTitle/>

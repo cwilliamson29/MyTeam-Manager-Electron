@@ -20,16 +20,16 @@ function SettingsBar() {
     }
     return (
         <div className={settings.colorMode + "-mode"}>
-            <div className="d-flex justify-content-between pt-2 pb-2 settings-bar">
-                <div className="ps-3"><h4>MyTeam Manager</h4></div>
-                <div className="d-flex justify-content-end align-content-center">
-                    <div className="d-flex text-center pe-3 settings-icon"
+            <div className="flex justify-between pb-2">
+                <div className="pl-3 text-xl"><h4>MyTeam Manager</h4></div>
+                <div className="flex justify-end">
+                    <div className="flex text-center pr-5 settings-icon"
                          onClick={() => handleAddEmpClick()}>
-                        <p className="me-2">{!addEmpVisible ? "Add" : "Close"}</p>
+                        <p className="mr-1">{!addEmpVisible ? "Add" : "Close"}</p>
                         {!addEmpVisible ? <FontAwesomeIcon icon={faSquarePlus} className="settings-icon"/> :
                             <FontAwesomeIcon icon={faSquareXmark} className="settings-icon"/>}
                     </div>
-                    <div className="pe-3 text-center" onClick={() => handleSettingClick()}>
+                    <div className="pr-3 text-center" onClick={() => handleSettingClick()}>
                         <FontAwesomeIcon icon={faGear} className="settings-icon"/>
                     </div>
                 </div>
