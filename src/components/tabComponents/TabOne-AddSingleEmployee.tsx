@@ -10,7 +10,11 @@ import TextBox from "../TailwindElements/textBox.tsx";
 import SelectBox from "../TailwindElements/selectBox.tsx";
 
 
-export default function TabOneAddSingleEmployee() {
+interface Props {
+    show: string;
+}
+
+export default function TabOneAddSingleEmployee({show}: Props) {
     const getEmployees = useEmployeeData.use.getEmployees()
     const setAppLoad = useAppLoad.use.setAppLoad()
     const [successMsg, setSuccessMsg] = useState(false)
@@ -96,57 +100,60 @@ export default function TabOneAddSingleEmployee() {
             [key]: val
         }))
     }
+    let tabShow = "p-4 rounded-lg bg-gray-50 dark:bg-gray-800";
+    let tabHide = "hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+   
 
     return (
+        <div className={show === "add-team-member" ? tabShow : tabHide} id="add-team-member" role="tabpanel" aria-labelledby="add-team-member-tab">
+            <form onSubmit={handleSubmit}>
+                {!valid &&
+                    <div className="d-flex flex-row justify-content-start mb-3 ps-3 secondary bg-danger ">
+                        <span>*Fields required</span>
+                    </div>
+                }
+                {successMsg &&
+                    <div className="flex bg-emerald-500 text-black rounded-md p-2 pl-5 mb-2">
+                        <span>Employee Added Successfully!</span>
+                    </div>
+                }
+                <div className="flex bg-slate-900 text-white rounded-lg mb-2 p-2">
+                    <SelectBoxTime name="Shift Start" keyValue="shiftStart" time={startTimes} error={error.shiftStart}
+                                   value={employee.shiftStart}
+                                   setter={setterProp}/>
+                    <SelectBoxTime name="Shift End" keyValue="shiftEnd" time={endTimes} error={error.shiftEnd}
+                                   value={employee.shiftEnd}
+                                   setter={setterProp}/>
 
-        <form onSubmit={handleSubmit}>
-            {!valid &&
-                <div className="d-flex flex-row justify-content-start mb-3 ps-3 secondary bg-danger ">
-                    <span>*Fields required</span>
+                    <fieldset className="flex">
+                        <legend className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Days Worked:</legend>
+                        {days.map((day) => <CheckBox key={day} day={day} onChange={handleCheckBox}/>
+                        )}
+                    </fieldset>
+
                 </div>
-            }
-            {successMsg &&
-                <div className="flex bg-emerald-500 text-black rounded-md p-2 pl-5 mb-2">
-                    <span>Employee Added Successfully!</span>
+                <div className="flex bg-slate-900 text-white rounded-lg mb-2 p-2">
+                    <TextBox name="First Name" type="text" placeHolder="John" value={employee.firstName} keyValue={"firstName"} setter={setterProp}/>
+                    <TextBox name={"Last Name"} type={"text"} placeHolder={"Dingus"} value={employee.lastName} keyValue={"lastName"} setter={setterProp}/>
+                    <TextBox name={"Email Address"} type={"email"} placeHolder={"jdingus@work.com"} value={employee.email} keyValue={"email"} setter={setterProp}/>
+                    <TextBox name={"EE ID"} type={"text"} placeHolder={"CCRJDINGUS"} value={employee.EEID} keyValue={"EEID"} setter={setterProp}/>
+
                 </div>
-            }
-            <div className="flex bg-slate-900 text-white rounded-lg mb-2 p-2">
-                <SelectBoxTime name="Shift Start" keyValue="shiftStart" time={startTimes} error={error.shiftStart}
-                               value={employee.shiftStart}
-                               setter={setterProp}/>
-                <SelectBoxTime name="Shift End" keyValue="shiftEnd" time={endTimes} error={error.shiftEnd}
-                               value={employee.shiftEnd}
-                               setter={setterProp}/>
-
-                <fieldset className="flex">
-                    <legend className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Days Worked:</legend>
-                    {days.map((day) => <CheckBox key={day} day={day} onChange={handleCheckBox}/>
-                    )}
-                </fieldset>
-
-            </div>
-            <div className="flex bg-slate-900 text-white rounded-lg mb-2 p-2">
-                <TextBox name="First Name" type="text" placeHolder="John" value={employee.firstName} keyValue={"firstName"} setter={setterProp}/>
-                <TextBox name={"Last Name"} type={"text"} placeHolder={"Dingus"} value={employee.lastName} keyValue={"lastName"} setter={setterProp}/>
-                <TextBox name={"Email Address"} type={"email"} placeHolder={"jdingus@work.com"} value={employee.email} keyValue={"email"} setter={setterProp}/>
-                <TextBox name={"EE ID"} type={"text"} placeHolder={"CCRJDINGUS"} value={employee.EEID} keyValue={"EEID"} setter={setterProp}/>
-
-            </div>
 
 
-            <div className="flex bg-slate-900 text-white rounded-lg mb-2 p-2">
-                <SelectBox name={"Meeting Frequency"} keyValue={"meetings"} arr={meetingBasis} error={error.meetings} value={employee.meetings} setter={setterProp}/>
-                <SelectBox name={"Meeting Day"} keyValue={"meetingsDay"} arr={days} error={error.meetingsDay} value={employee.meetingsDay} setter={setterProp}/>
-                <SelectBox name={"Warnings"} keyValue={"warnings"} arr={warnings} error={error.warnings} value={employee.warnings} setter={setterProp}/>
-                <button type="submit"
-                        className="ml-5 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1 text-center me-2 mb-2">
-                    Add Team Member
-                </button>
+                <div className="flex bg-slate-900 text-white rounded-lg mb-2 p-2">
+                    <SelectBox name={"Meeting Frequency"} keyValue={"meetings"} arr={meetingBasis} error={error.meetings} value={employee.meetings} setter={setterProp}/>
+                    <SelectBox name={"Meeting Day"} keyValue={"meetingsDay"} arr={days} error={error.meetingsDay} value={employee.meetingsDay} setter={setterProp}/>
+                    <SelectBox name={"Warnings"} keyValue={"warnings"} arr={warnings} error={error.warnings} value={employee.warnings} setter={setterProp}/>
+                    <button type="submit"
+                            className="ml-5 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1 text-center me-2 mb-2">
+                        Add Team Member
+                    </button>
 
 
-            </div>
+                </div>
 
-        </form>
-
+            </form>
+        </div>
     )
 }

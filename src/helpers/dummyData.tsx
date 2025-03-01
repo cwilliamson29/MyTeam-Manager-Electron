@@ -1,12 +1,14 @@
 import {addEmployeeHelper} from "./addEmployeeHelper.tsx";
 import {Employee} from "../interfaces/employeeInterface.tsx";
 
+// @ts-ignore
 interface dummyEmployee {
     dummyEmp: Employee[]
 }
 
 export const AddDummyData = () => {
     for (let i = 0; i < dummyData2.length; i++) {
+        // @ts-ignore
         addEmployeeHelper(dummyData2[i])
     }
 }
