@@ -12,9 +12,11 @@ import SelectBox from "../TailwindElements/selectBox.tsx";
 
 interface Props {
     show: string;
+    tabShow: string;
+    tabHide: string;
 }
 
-export default function TabOneAddSingleEmployee({show}: Props) {
+export default function TabOneAddSingleEmployee({show, tabShow, tabHide}: Props) {
     const getEmployees = useEmployeeData.use.getEmployees()
     const setAppLoad = useAppLoad.use.setAppLoad()
     const [successMsg, setSuccessMsg] = useState(false)
@@ -100,12 +102,10 @@ export default function TabOneAddSingleEmployee({show}: Props) {
             [key]: val
         }))
     }
-    let tabShow = "p-4 rounded-lg bg-gray-50 dark:bg-gray-800";
-    let tabHide = "hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
-   
 
     return (
         <div className={show === "add-team-member" ? tabShow : tabHide} id="add-team-member" role="tabpanel" aria-labelledby="add-team-member-tab">
+            <h3 className="mb-3 text-white">Add Team Member</h3>
             <form onSubmit={handleSubmit}>
                 {!valid &&
                     <div className="d-flex flex-row justify-content-start mb-3 ps-3 secondary bg-danger ">

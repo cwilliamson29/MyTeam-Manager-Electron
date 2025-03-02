@@ -1,24 +1,28 @@
-import {Button, Form} from "react-bootstrap";
-
 interface Props {
     show: string;
+    tabShow: string;
+    tabHide: string;
 }
 
 // TODO: `Need to add updating by excel parsing functionality`
-export default function TabTwoAddByExcel({show}: Props) {
-    let tabShow = "p-4 rounded-lg bg-gray-50 dark:bg-gray-800";
-    let tabHide = "hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
-
+export default function TabTwoAddByExcel({show, tabShow, tabHide}: Props) {
 
     return (
         <div className={show === "add-from-excel" ? tabShow : tabHide} id="add-team-member" role="tabpanel" aria-labelledby="add-team-member-tab">
-            <Form.Group controlId="formFileLg" className="mb-3">
-                <Form.Label>Upload File for Batch processing</Form.Label>
-                <Form.Control type="file" size="lg"/>
-            </Form.Group>
-            <Button variant="primary" type="submit">
-                Upload File
-            </Button>
+            <h3 className="mb-3 text-white">Add From Excel</h3>
+            <form className="flex ">
+                <label className="text-sm text-white font-medium text-gray-900 bg-gray-600 rounded-l-md pt-1 pl-2 w-[120px]" htmlFor="file_input">Upload file</label>
+                <input
+                    className="w-75 text-sm text-gray-900 border border-gray-300 rounded-r-md cursor-pointer bg-gray-50 focus:outline-none "
+                    id="file_input" type="file"/>
+                <button type="submit"
+                        className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1 text-center w-[220px] h-full ml-5 mr-2">
+                    Upload File
+                </button>
+            </form>
+            <div className="ml-[120px] pt-1 text-xs text-gray-400">
+                *Click into white space to select file
+            </div>
         </div>
     );
 }

@@ -13,6 +13,9 @@ function AddEmployee({show}: Props) {
     let names: string[] = ["Add Team Member", "Add From Excel", "Update From Excel"]
     let [view, setView] = useState("add-team-member")
 
+    let tabShow = "p-4 rounded-lg bg-gray-50 dark:bg-gray-800";
+    let tabHide = "hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+
     const setTabView = (val: string) => {
         setView(val)
     }
@@ -20,9 +23,9 @@ function AddEmployee({show}: Props) {
         <div className={"box " + hide}>
             <TabView show={view} names={names} setter={setTabView}/>
             <div id="default-tab-content">
-                <TabOneAddSingleEmployee show={view}/>
-                <TabTwoAddByExcel show={view}/>
-                <TabThreeUpdateByExcel show={view}/>
+                <TabOneAddSingleEmployee show={view} tabShow={tabShow} tabHide={tabHide}/>
+                <TabTwoAddByExcel show={view} tabShow={tabShow} tabHide={tabHide}/>
+                <TabThreeUpdateByExcel show={view} tabShow={tabShow} tabHide={tabHide}/>
             </div>
             {/*<Tabs*/}
             {/*    defaultActiveKey="addEmployee"*/}
