@@ -13,11 +13,11 @@ export const colorOfDay = (time: string) => {
 
     // Determines CSS return statement
     if (morning.includes(t)) {
-        return "morning";
+        return "bg-amber-200";
     } else if (midDay.includes(t)) {
-        return "midDay";
+        return "bg-emerald-200";
     } else if (evening.includes(t)) {
-        return "evening";
+        return "bg-indigo-400";
     } else {
         return "bg-black text-white"
     }
@@ -29,10 +29,10 @@ export const titleCase = (str: string): string => str.toLowerCase().split(' ').m
 
 // css helper function goes to EmployeeListTitle and easily allows switching between to strings without error
 export const css = (args: string) => {
-    if (args === ' title-buttons-clicked ') {
+    if (args === ' text-[#70ace4] ') {
         return ''
     } else {
-        return ' title-buttons-clicked '
+        return ' text-[#70ace4] '
     }
 
 }

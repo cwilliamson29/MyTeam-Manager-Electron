@@ -27,20 +27,6 @@ function AddEmployee({show}: Props) {
                 <TabTwoAddByExcel show={view} tabShow={tabShow} tabHide={tabHide}/>
                 <TabThreeUpdateByExcel show={view} tabShow={tabShow} tabHide={tabHide}/>
             </div>
-            {/*<Tabs*/}
-            {/*    defaultActiveKey="addEmployee"*/}
-            {/*    id="uncontrolled-tab"*/}
-            {/*    className="mb-3">*/}
-            {/*    <Tab eventKey="addEmployee" title="Add Team Member">*/}
-            {/*        <TabOneAddSingleEmployee/>*/}
-            {/*    </Tab>*/}
-            {/*    <Tab eventKey="addExcel" title="Add From Excel">*/}
-            {/*        <TabTwoAddByExcel/>*/}
-            {/*    </Tab>*/}
-            {/*    <Tab eventKey="update" title="Update From Excel">*/}
-            {/*        <TabThreeUpdateByExcel/>*/}
-            {/*    </Tab>*/}
-            {/*</Tabs>*/}
         </div>
     );
 }

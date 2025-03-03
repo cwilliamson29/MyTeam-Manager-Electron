@@ -17,7 +17,7 @@ function TabView({names, show, setter}: Props) {
                 {names.map((name) => {
                         let str = name.replace(/\s+/g, '-').toLowerCase()
                         return (
-                            <li className={str === show ? liShow : liHide} role="presentation">
+                            <li key={name} className={str === show ? liShow : liHide} role="presentation">
                                 <button className={str === show ? tabShow : tabHide}
                                         id={str}
                                         data-tabs-target={"#" + str} type="button" role="tab"

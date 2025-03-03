@@ -1,8 +1,9 @@
 import {colorOfDay, timeConvertT012, titleCase} from "../../helpers/employeeList-helpers.tsx";
-import {useAppSettings} from "../../state/store.ts";
+import {useAppLoad, useAppSettings, useEmployeeData} from "../../state/store.ts";
+import ModifyEmployee from "./modifyEmployee.tsx";
 
 interface Props {
-    id: number;
+    id: any;
     shiftStart: string;
     shiftEnd: string;
     daysWorked: string;
@@ -30,57 +31,63 @@ function EmployeeList({
                       }: Props) {
     const color = colorOfDay(shiftStart)
     const settings = useAppSettings.use.appSettings()
+    // ModifyID to show and hide the active modify section for each employee
+    const modifyID = useEmployeeData.use.modifyID()
+    const setModifyID = useEmployeeData.use.setModifyID()
+    // AppLoad
+    const appLoad = useAppLoad.use.appLoad()
+    //const setAppLoad = useAppLoad.use.setAppLoad()
     // Arrange by First + Last ... or ... Last, First
     const firstLastName = titleCase(`${firstName + " " + lastName}`);
     const lastFirstName = titleCase(`${lastName + ", " + firstName}`);
 
-    //console.log(timeConvertT024("06:00 AM"))
-    //console.log(timeConvertT012("13:00"))
-    // TODO: `Need to fix rendering of time by 12/24 hour`
-    return (
-        <div key={id}
-             className={color + " d-flex flex-row align-items-center border-bottom border-dark justify-content-between employee"}>
-            <div className="col flex-grow-1 h-100 time">
-                {settings.hours === 12 ? `${timeConvertT012(shiftStart) + " - " + timeConvertT012(shiftEnd)}` : `${shiftStart + " - " + shiftEnd}`}
+    const css = " text-center text-[14px] border-r-[1px] border-dark "
+    const warning = "w-[9%] text-center text-[14px] bg-red-600 text-white"
+    const noWarning = "w-[9%] text-center text-[14px]"
 
+    const getById = useEmployeeData.use.getById()
+    const employee = useEmployeeData.use.employee()
+
+
+    const handleClick = async () => {
+        getById(id)
+
+        if (modifyID === id.toString()) {
+            setModifyID('')
+        } else {
+            setModifyID(id.toString())
+        }
+        console.log(employee)
+
+    }
+    if (appLoad) {
+        return (<div>Loading....</div>)
+    } else {
+        return (
+            <div key={id}>
+                <div className={color + " flex align-start border-b border-dark justify-start font-bold hover:bg-blue-300"} onClick={() => handleClick()}>
+                    <div className={"w-[19%]" + css}>
+                        {settings.hours === 12 ? `${timeConvertT012(shiftStart) + " - " + timeConvertT012(shiftEnd)}` : `${shiftStart + " - " + shiftEnd}`}
+                    </div>
+                    <div className={"w-[10%]" + css}>{daysWorked}</div>
+                    <div className={"w-[22%]" + css}>
+                        {settings.sortByFirstName ? firstLastName : lastFirstName}
+                    </div>
+                    <div className={"w-[23%]" + css}>{email}</div>
+                    <div className={"w-[12%]" + css}>{EEID.toUpperCase()}</div>
+                    <div className={"w-[22%]" + css}>
+                        {meetings === "none" ? "" : titleCase(meetings + " on " + meetingsDay)}
+                    </div>
+                    <div
+                        className={warnings === "none" ? noWarning : warning}>
+                        {warnings === "none" ? '' : warnings.toUpperCase()}
+                    </div>
+                </div>
+                <div className={modifyID === id.toString() ? "" : "hidden"}><ModifyEmployee id={id}/></div>
             </div>
-            <div className={"border-" + color + " col-sm h-100 days"}>{daysWorked}</div>
-            <div className={"border-" + color + " col h-100 name"}>
-                {settings.sortByFirstName ? firstLastName : lastFirstName}
-            </div>
-            <div className={"border-" + color + " col h-100 email"}>{email}</div>
-            <div className={"border-" + color + " col h-100 EEID"}>{EEID.toUpperCase()}</div>
-            <div className={"border-" + color + " col h-100 meetings"}>
-                {meetings === "none" ? "" : titleCase(meetings + " on " + meetingsDay)}
-            </div>
-            <div
-                className={warnings === "none" ? "border-" + color + " col h-100 empWarningsNONE" : "border-" + color + " col h-100 empWarnings"}>
-                {warnings === "none" ? '' : warnings.toUpperCase()}
-            </div>
-        </div>
-    );
-    // return (
-    //     <div key={id}
-    //          className={color + " d-flex flex-row align-items-center border-bottom border-dark justify-content-between employee"}>
-    //         <div className="col flex-grow-1 h-100 time">
-    //             {settings.hours === 12 ? `${timeConvertT012(shiftStart) + " - " + timeConvertT012(shiftEnd)}` : `${shiftStart + " - " + shiftEnd}`}
-    //
-    //         </div>
-    //         <div className={"border-" + color + " col-sm h-100 days"}>{daysWorked}</div>
-    //         <div className={"border-" + color + " col h-100 name"}>
-    //             {settings.sortByFirstName ? firstLastName : lastFirstName}
-    //         </div>
-    //         <div className={"border-" + color + " col h-100 email"}>{email}</div>
-    //         <div className={"border-" + color + " col h-100 EEID"}>{EEID.toUpperCase()}</div>
-    //         <div className={"border-" + color + " col h-100 meetings"}>
-    //             {meetings === "none" ? "" : titleCase(meetings + " on " + meetingsDay)}
-    //         </div>
-    //         <div
-    //             className={warnings === "none" ? "border-" + color + " col h-100 empWarningsNONE" : "border-" + color + " col h-100 empWarnings"}>
-    //             {warnings === "none" ? '' : warnings.toUpperCase()}
-    //         </div>
-    //     </div>
-    // );
+
+        );
+    }
 }
 
 export default EmployeeList;

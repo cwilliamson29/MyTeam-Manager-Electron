@@ -2,12 +2,7 @@ import {create} from "zustand/react";
 import {Employee, Settings} from "../interfaces/employeeInterface.tsx";
 import {db} from "../helpers/db.ts";
 import createSelectors from './selectors.ts'
-import {
-    sortByFirstName,
-    sortByLastName,
-    sortByTimeAndLastName,
-    sortByTimeAndName
-} from "../helpers/employeeList-helpers.tsx";
+import {sortByFirstName, sortByLastName, sortByTimeAndLastName, sortByTimeAndName} from "../helpers/employeeList-helpers.tsx";
 
 
 // AppLoad - Determine if app has been loaded
@@ -64,11 +59,20 @@ const appSettings = create<AppSettings>((set) => ({
 // EmployeeData - Get and save employee data to state
 type EmployeeData = {
     employees: Employee[];
+    modifyID: string;
+    employee: any;
+    setModifyID: (val: string) => void;
     getEmployees: () => void;
     setEmployees: () => void;
+    getById: (id: string) => void;
 }
 const employeeData = create<EmployeeData>((set) => ({
     employees: [],
+    modifyID: '',
+    employee: '',
+    setModifyID: (val) => {
+        set(() => ({modifyID: val}))
+    },
     getEmployees: async () => {
         const result = await db.employees.toArray();
         if (result === undefined) {
@@ -94,6 +98,11 @@ const employeeData = create<EmployeeData>((set) => ({
             sortByTimeAndLastName(array)
         }
         set(() => ({employees: array}))
+    },
+    getById: async (id: any) => {
+        let result = await db.employees.get(id)
+
+        set(() => ({employee: result}))
     }
 }))
 
