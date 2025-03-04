@@ -4,7 +4,6 @@ import {days, employeeBooleanTemplate, endTimes, startTimes} from "../../helpers
 import CheckBox from "../TailwindElements/checkBox.tsx";
 import {useEmployeeData} from "../../state/store.ts";
 import {EmployeeValidation} from "../../interfaces/employeeInterface.tsx";
-import {db} from "../../helpers/db.ts";
 
 interface Props {
     show: string;
@@ -60,6 +59,7 @@ function EditShift({show, tabShow, tabHide}: Props) {
         let result = days.join('')
         setDaysWorked(result)
         //setEmployee(currentState => ({...currentState, daysWorked: result}))
+        setterProp("daysWorked", result)
 
     }, [checked]);
     const handleCheckBox = (e: any, key: string) => {
@@ -67,16 +67,14 @@ function EditShift({show, tabShow, tabHide}: Props) {
         //Determines checked with true/false and saves to checked variable
         let day = key.toLowerCase()
         setChecked({...checked, [day]: e.target.checked})
+        //setterProp("daysWorked", daysWorked)
     }
     const setterProp = (key: string, val: string) => {
         setEmployee(key, val)
-        //console.log(employee)
     }
     const handleSubmit = (e: any) => {
         e.preventDefault()
         saveEmployee()
-        db.employees.update(employee.id, employee)
-        db.employees.update(employee.id, {"daysWorked": daysWorked})
     }
 
     return (

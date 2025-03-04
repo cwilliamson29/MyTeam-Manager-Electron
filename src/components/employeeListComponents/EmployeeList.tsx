@@ -46,8 +46,6 @@ function EmployeeList({
     const noWarning = "w-[9%] text-center text-[14px]"
 
     const getById = useEmployeeData.use.getById()
-    const employee = useEmployeeData.use.employee()
-
 
     const handleClick = async () => {
         getById(id)
@@ -57,8 +55,6 @@ function EmployeeList({
         } else {
             setModifyID(id.toString())
         }
-        console.log(employee)
-
     }
     if (appLoad) {
         return (<div>Loading....</div>)
@@ -83,7 +79,7 @@ function EmployeeList({
                         {warnings === "none" ? '' : warnings.toUpperCase()}
                     </div>
                 </div>
-                <div className={modifyID === id.toString() ? "" : "hidden"}><ModifyEmployee id={id}/></div>
+                <div className={modifyID === id.toString() ? "" : "hidden"}><ModifyEmployee/></div>
             </div>
 
         );

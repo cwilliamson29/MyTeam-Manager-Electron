@@ -3,7 +3,6 @@ import {Employee, Settings} from "../interfaces/employeeInterface.tsx";
 import {db} from "../helpers/db.ts";
 import createSelectors from './selectors.ts'
 import {sortByFirstName, sortByLastName, sortByTimeAndLastName, sortByTimeAndName} from "../helpers/employeeList-helpers.tsx";
-import {produce} from "immer";
 
 
 // AppLoad - Determine if app has been loaded
@@ -108,24 +107,25 @@ const employeeData = create<EmployeeData>((set) => ({
         set(() => ({employee: result}))
     },
     setEmployee: (keyValue, val) => {
-        console.log(keyValue + " " + val)
         set((state) => ({employee: {...state.employee, [keyValue]: val}}))
-        console.log(employeeData.getState().employee)
     },
     saveEmployee: () => {
+        // create new array and filter out old employee
+        let emps = [...employeeData.getState().employees]
         let emp = employeeData.getState().employee
-        for (let key in emp) {
-            if (typeof emp[key] === 'string') {
-                emp[key] = emp[key].toLowerCase();
-            }
-        }
-        set(produce((emp) => {
-            const empIndex = emp.employees.findIndex((eid: any) => eid.id === emp.id)
-            if (empIndex !== -1) {
-                emp.employees[empIndex] = emp
-            }
-        }))
-        console.log(employeeData.getState().employees)
+        emp.firstName = emp.firstName.toLowerCase()
+        emp.lastName = emp.lastName.toLowerCase()
+        emp.email = emp.email.toLowerCase()
+        emp.EEID = emp.EEID.toLowerCase()
+        const newEmps = emps.filter(item => item.id !== emp.id)
+        //push new employee to state array
+        newEmps.push(emp)
+        // Set state with new employee array
+        set(() => ({employees: newEmps}))
+        //  refresh state with current sorting
+        employeeData.getState().setEmployees()
+        // save to dexie DB
+        db.employees.update(emp.id, emp)
     },
 }))
 

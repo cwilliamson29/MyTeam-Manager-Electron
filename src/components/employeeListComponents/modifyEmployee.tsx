@@ -4,11 +4,7 @@ import EditShift from "../modifyEmployeeComponents/editShift.tsx";
 import EditCoaching from "../modifyEmployeeComponents/editCoaching.tsx";
 import EditContactInfo from "../modifyEmployeeComponents/editContactInfo.tsx";
 
-interface Props {
-    id: any;
-}
-
-function ModifyEmployee({id}: Props) {
+function ModifyEmployee() {
     //let hide = show ? " open" : "";
     let names: string[] = ["Edit Coaching", "Edit Shift", "Edit Contact Info", "Notes"]
     let [view, setView] = useState("edit-coaching")
