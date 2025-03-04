@@ -3,6 +3,7 @@ import {Employee, Settings} from "../interfaces/employeeInterface.tsx";
 import {db} from "../helpers/db.ts";
 import createSelectors from './selectors.ts'
 import {sortByFirstName, sortByLastName, sortByTimeAndLastName, sortByTimeAndName} from "../helpers/employeeList-helpers.tsx";
+import {produce} from "immer";
 
 
 // AppLoad - Determine if app has been loaded
@@ -65,11 +66,13 @@ type EmployeeData = {
     getEmployees: () => void;
     setEmployees: () => void;
     getById: (id: string) => void;
+    setEmployee: (keyValue: string, val: string) => void;
+    saveEmployee: () => void;
 }
 const employeeData = create<EmployeeData>((set) => ({
     employees: [],
     modifyID: '',
-    employee: '',
+    employee: {},
     setModifyID: (val) => {
         set(() => ({modifyID: val}))
     },
@@ -103,7 +106,27 @@ const employeeData = create<EmployeeData>((set) => ({
         let result = await db.employees.get(id)
 
         set(() => ({employee: result}))
-    }
+    },
+    setEmployee: (keyValue, val) => {
+        console.log(keyValue + " " + val)
+        set((state) => ({employee: {...state.employee, [keyValue]: val}}))
+        console.log(employeeData.getState().employee)
+    },
+    saveEmployee: () => {
+        let emp = employeeData.getState().employee
+        for (let key in emp) {
+            if (typeof emp[key] === 'string') {
+                emp[key] = emp[key].toLowerCase();
+            }
+        }
+        set(produce((emp) => {
+            const empIndex = emp.employees.findIndex((eid: any) => eid.id === emp.id)
+            if (empIndex !== -1) {
+                emp.employees[empIndex] = emp
+            }
+        }))
+        console.log(employeeData.getState().employees)
+    },
 }))
 
 export const useAppSettings = createSelectors(appSettings)

@@ -4,6 +4,7 @@ import {days, employeeBooleanTemplate, endTimes, startTimes} from "../../helpers
 import CheckBox from "../TailwindElements/checkBox.tsx";
 import {useEmployeeData} from "../../state/store.ts";
 import {EmployeeValidation} from "../../interfaces/employeeInterface.tsx";
+import {db} from "../../helpers/db.ts";
 
 interface Props {
     show: string;
@@ -11,10 +12,13 @@ interface Props {
     tabHide: string;
 }
 
-function ModifyShift({show, tabShow, tabHide}: Props) {
+function EditShift({show, tabShow, tabHide}: Props) {
     const employee = useEmployeeData.use.employee()
+    const setEmployee = useEmployeeData.use.setEmployee()
+    const saveEmployee = useEmployeeData.use.saveEmployee()
     // @ts-ignore
     let [error, setError] = useState<EmployeeValidation>(employeeBooleanTemplate)
+    const daysSliced = days.slice(0, 7)
 
     let [checked, setChecked] = useState({
         sunday: false,
@@ -64,24 +68,37 @@ function ModifyShift({show, tabShow, tabHide}: Props) {
         let day = key.toLowerCase()
         setChecked({...checked, [day]: e.target.checked})
     }
+    const setterProp = (key: string, val: string) => {
+        setEmployee(key, val)
+        //console.log(employee)
+    }
+    const handleSubmit = (e: any) => {
+        e.preventDefault()
+        saveEmployee()
+        db.employees.update(employee.id, employee)
+        db.employees.update(employee.id, {"daysWorked": daysWorked})
+    }
 
     return (
         <div className={show === "edit-shift" ? tabShow : tabHide} id="add-team-member" role="tabpanel" aria-labelledby="add-team-member-tab">
-            <form onSubmit={() => console.log('submit')}>
+            <form onSubmit={(e) => handleSubmit(e)}>
                 <div className="flex bg-slate-900 text-white rounded-lg mb-2 p-2">
                     <SelectBoxTime name="Shift Start" keyValue="shiftStart" time={startTimes} error={error.shiftStart}
                                    value={employee.shiftStart}
-                                   setter={() => console.log(null)}/>
+                                   setter={setterProp}/>
                     <SelectBoxTime name="Shift End" keyValue="shiftEnd" time={endTimes} error={false}
                                    value={employee.shiftEnd}
-                                   setter={() => console.log('asdf')}/>
+                                   setter={setterProp}/>
 
                     <fieldset className="flex">
                         <legend className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Days Worked:</legend>
-                        {days.map((day) => <CheckBox key={day} day={day} onChange={handleCheckBox}/>
+                        {daysSliced.map((day) => <CheckBox key={day} day={day} onChange={handleCheckBox}/>
                         )}
                     </fieldset>
-
+                    <button type="submit"
+                            className="ml-5 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1 text-center me-2 mb-2">
+                        Save
+                    </button>
                 </div>
             </form>
         </div>
@@ -89,4 +106,4 @@ function ModifyShift({show, tabShow, tabHide}: Props) {
     )
 }
 
-export default ModifyShift
+export default EditShift

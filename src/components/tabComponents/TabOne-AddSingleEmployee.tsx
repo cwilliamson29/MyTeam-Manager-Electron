@@ -32,6 +32,7 @@ export default function TabOneAddSingleEmployee({show, tabShow, tabHide}: Props)
         friday: false,
         saturday: false
     });
+    const daysSliced = days.slice(0, 7)
     let [daysWorked, setDaysWorked] = useState('-------')
 
     useEffect(() => {
@@ -127,7 +128,7 @@ export default function TabOneAddSingleEmployee({show, tabShow, tabHide}: Props)
 
                     <fieldset className="flex">
                         <legend className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Days Worked:</legend>
-                        {days.map((day) => <CheckBox key={day} day={day} onChange={handleCheckBox}/>
+                        {daysSliced.map((day) => <CheckBox key={day} day={day} onChange={handleCheckBox}/>
                         )}
                     </fieldset>
 

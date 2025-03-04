@@ -1,3 +1,5 @@
+import {titleCase} from "../../helpers/employeeList-helpers.tsx";
+
 interface Props {
     name: string;
     keyValue: string;
@@ -19,7 +21,7 @@ function SelectBox({name, keyValue, arr, error, value, setter}: Props) {
                     value={value}
                     onChange={(e) => setter(keyValue, e.target.value)} required>
                 <option value=""></option>
-                {arr.map((arrOption) => <option key={arrOption} value={arrOption}>{arrOption}</option>)}
+                {arr.map((arrOption) => <option key={arrOption} value={arrOption.toLowerCase()}>{titleCase(arrOption)}</option>)}
             </select>
         </div>
     )
