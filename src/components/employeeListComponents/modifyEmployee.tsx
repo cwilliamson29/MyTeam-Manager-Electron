@@ -3,6 +3,7 @@ import TabView from "../TailwindElements/tabView.tsx";
 import EditShift from "../modifyEmployeeComponents/editShift.tsx";
 import EditCoaching from "../modifyEmployeeComponents/editCoaching.tsx";
 import EditContactInfo from "../modifyEmployeeComponents/editContactInfo.tsx";
+import EditNote from "../modifyEmployeeComponents/editNote.tsx";
 
 function ModifyEmployee() {
     //let hide = show ? " open" : "";
@@ -23,6 +24,7 @@ function ModifyEmployee() {
                 <EditCoaching show={view} tabShow={tabShow} tabHide={tabHide}/>
                 <EditShift show={view} tabShow={tabShow} tabHide={tabHide}/>
                 <EditContactInfo show={view} tabShow={tabShow} tabHide={tabHide}/>
+                <EditNote show={view} tabShow={tabShow} tabHide={tabHide}/>
             </div>
         </div>
     )

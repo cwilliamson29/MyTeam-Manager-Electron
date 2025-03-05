@@ -33,6 +33,13 @@ export interface EmployeeValidation {
     warnings: boolean
 }
 
+export interface Notes {
+    id: number;
+    ownerID: number;
+    timeStamp: string;
+    note: string;
+}
+
 // interface goes to EmployeeListTitle to allow sorting by time and name
 export interface EmployeeSorting {
     time: boolean;

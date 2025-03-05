@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@plugin "@tailwindcss/typography";
+
 :root {
     --background-color-light: #d2d3db;
     --text-color-light: #17171e;
@@ -21,4 +23,8 @@
 .titleBar {
     app-region: drag;
     height: 30px;
+}
+
+.editor {
+    max-width: 100% !important;
 }

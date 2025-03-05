@@ -78,7 +78,7 @@ function EditShift({show, tabShow, tabHide}: Props) {
     }
 
     return (
-        <div className={show === "edit-shift" ? tabShow : tabHide} id="add-team-member" role="tabpanel" aria-labelledby="add-team-member-tab">
+        <div className={show === "edit-shift" ? tabShow : tabHide} id="edit-shift" role="tabpanel" aria-labelledby="edit-shift-tab">
             <form onSubmit={(e) => handleSubmit(e)}>
                 <div className="flex bg-slate-900 text-white rounded-lg mb-2 p-2">
                     <SelectBoxTime name="Shift Start" keyValue="shiftStart" time={startTimes} error={error.shiftStart}
