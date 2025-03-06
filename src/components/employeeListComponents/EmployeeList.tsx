@@ -79,7 +79,7 @@ function EmployeeList({
                         {warnings === "none" ? '' : warnings.toUpperCase()}
                     </div>
                 </div>
-                <div className={modifyID === id.toString() ? "" : "hidden"}><ModifyEmployee/></div>
+                {modifyID === id.toString() && <ModifyEmployee/>}
             </div>
 
         );

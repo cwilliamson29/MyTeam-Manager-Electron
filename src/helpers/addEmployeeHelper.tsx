@@ -24,5 +24,16 @@ export const addEmployeeHelper = (empl: Employee) => {
         }
     }
 
+    // async function addNote() {
+    //     try {
+    //         // Add the new friend!
+    //         await db.notes.add({
+    //             ownerID, shiftEnd, daysWorked, firstName, lastName, email, EEID, meetings, meetingsDay, warnings
+    //         });
+    //     } catch (error) {
+    //         if (error) throw error
+    //     }
+    // }
+
     return addEmployee();
 }

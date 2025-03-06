@@ -60,20 +60,30 @@ const appSettings = create<AppSettings>((set) => ({
 type EmployeeData = {
     employees: Employee[];
     modifyID: string;
+    modifyNoteID: string;
     employee: any;
+    note: any;
     setModifyID: (val: string) => void;
+    setModifyNoteID: (val: string) => void;
     getEmployees: () => void;
     setEmployees: () => void;
     getById: (id: string) => void;
+    getNoteById: (id: string) => void;
     setEmployee: (keyValue: string, val: string) => void;
     saveEmployee: () => void;
+    saveNote: () => void;
 }
 const employeeData = create<EmployeeData>((set) => ({
     employees: [],
     modifyID: '',
+    modifyNoteID: '',
     employee: {},
+    note: {id: 0, ownerID: 0, timeStamp: '', dateStamp: '', note: ''},
     setModifyID: (val) => {
         set(() => ({modifyID: val}))
+    },
+    setModifyNoteID: (val) => {
+        set(() => ({modifyNoteID: val}))
     },
     getEmployees: async () => {
         const result = await db.employees.toArray();
@@ -105,11 +115,53 @@ const employeeData = create<EmployeeData>((set) => ({
         let result = await db.employees.get(id)
 
         set(() => ({employee: result}))
+        employeeData.getState().getNoteById(id)
+    },
+    getNoteById: async (id: any) => {
+        let result = await db.notes.get({ownerID: id})
+        console.log(result)
+        if (result === undefined) {
+            const ownerID = id;
+            const dateStamp = new Date().toLocaleDateString()
+            const timeStamp = new Date().toLocaleTimeString()
+            const note = "# Welcome World"
+            try {
+                // Add the note!
+                await db.notes.add({
+                    // @ts-ignore
+                    ownerID, dateStamp, timeStamp, note
+                });
+            } catch (error) {
+                if (error) throw error
+            }
+            let result2 = await db.notes.get({ownerID: id})
+            set(() => ({note: result2}))
+        } else {
+            set(() => ({note: result}))
+        }
     },
     setEmployee: (keyValue, val) => {
         set((state) => ({employee: {...state.employee, [keyValue]: val}}))
     },
     saveEmployee: () => {
+        // create new array and filter out old employee
+        let emps = [...employeeData.getState().employees]
+        let emp = employeeData.getState().employee
+        emp.firstName = emp.firstName.toLowerCase()
+        emp.lastName = emp.lastName.toLowerCase()
+        emp.email = emp.email.toLowerCase()
+        emp.EEID = emp.EEID.toLowerCase()
+        const newEmps = emps.filter(item => item.id !== emp.id)
+        //push new employee to state array
+        newEmps.push(emp)
+        // Set state with new employee array
+        set(() => ({employees: newEmps}))
+        //  refresh state with current sorting
+        employeeData.getState().setEmployees()
+        // save to dexie DB
+        db.employees.update(emp.id, emp)
+    },
+    saveNote: () => {
         // create new array and filter out old employee
         let emps = [...employeeData.getState().employees]
         let emp = employeeData.getState().employee

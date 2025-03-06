@@ -11,5 +11,5 @@ export const db = new Dexie("EmployeeDatabase") as Dexie & {
 db.version(1).stores({
     employees: "++id, shiftStart, shiftEnd, daysWorked, firstName, lastName, email, EEID, meetings, meetingsDay, warnings",
     settings: "++id, dataSaved, sortByTime, sortByName, colorMode, hours",
-    notes: "++id, ownerID, timeStamp, note"
+    notes: "++id, ownerID, dateStamp, timeStamp, note"
 });

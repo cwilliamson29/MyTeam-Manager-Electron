@@ -15,25 +15,25 @@ import {
 } from '@mdxeditor/editor'
 import React from "react";
 import '@mdxeditor/editor/style.css'
+import {useEmployeeData} from "../../state/store.ts";
 
 interface Props {
-    show: string;
     tabShow: string;
-    tabHide: string;
 }
 
-function EditNote({show, tabShow, tabHide}: Props) {
+function EditNote({tabShow}: Props) {
     const ref = React.useRef<MDXEditorMethods>(null)
+    const note = useEmployeeData.use.note()
 
     return (
-        <div className={show === "notes" ? tabShow + " w-[100%]" : tabHide} id="notes" role="tabpanel" aria-labelledby="notes-tab">
+        <div className={tabShow + " w-[100%]"} id="notes" role="tabpanel" aria-labelledby="notes-tab">
             <form>
                 <div className={"text-white flex w-[100%]"}>
                     <div className={"w-[75%]"}>
                         <MDXEditor
                             ref={ref}
                             className={"bg-white prose rounded-md editor"}
-                            markdown={'Begin Typing'}
+                            markdown={note.note}
                             plugins={[
                                 headingsPlugin(),
                                 listsPlugin(),

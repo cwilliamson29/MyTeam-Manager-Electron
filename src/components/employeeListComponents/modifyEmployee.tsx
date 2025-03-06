@@ -24,7 +24,7 @@ function ModifyEmployee() {
                 <EditCoaching show={view} tabShow={tabShow} tabHide={tabHide}/>
                 <EditShift show={view} tabShow={tabShow} tabHide={tabHide}/>
                 <EditContactInfo show={view} tabShow={tabShow} tabHide={tabHide}/>
-                <EditNote show={view} tabShow={tabShow} tabHide={tabHide}/>
+                {view === "notes" && <EditNote tabShow={tabShow}/>}
             </div>
         </div>
     )
