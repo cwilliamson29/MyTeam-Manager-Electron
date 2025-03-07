@@ -26,17 +26,18 @@ function EditNote({tabShow}: Props) {
     const note = useEmployeeData.use.note()
     const saveNote = useEmployeeData.use.saveNote()
     const [message, setMessage] = useState('');
+    let timeout: any;
 
     const handleOnChange = () => {
-        const timeoutId = setTimeout(() => {
-            console.log("inside timer")
-            setMessage('Delayed message after 2 seconds!');
-        }, 2000);
+        const dateStamp = new Date().toLocaleDateString()
+        const timeStamp = new Date().toLocaleTimeString()
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            // Send data to the database here
+            saveNote(ref.current?.getMarkdown())
+            setMessage("Saved @ " + dateStamp + " " + timeStamp)
+        }, 1000); // Adjust the delay time as needed
 
-        console.log("outside timer")
-
-        // Cleanup function to clear the timeout if the component unmounts
-        return () => clearTimeout(timeoutId);
     }
 
 
@@ -78,18 +79,9 @@ function EditNote({tabShow}: Props) {
                         <p className={"text-gray-400 text-sm"}>To go from a list to a paragraph or heading you need to select between the two</p>
                     </div>
                 </div>
-                <button onClick={(e) => {
-                    e.preventDefault();
-                    ref.current?.setMarkdown('new markdown')
-                }}>Set new markdown
-                </button>
-                <button onClick={(e) => {
-                    e.preventDefault();
-                    saveNote(ref.current?.getMarkdown())
-                }}> - Save -
-                </button>
-                {message}
-
+                <div className={"text-gray-400 text-xs pt-1"}>
+                    {message}
+                </div>
             </form>
         </div>
     )
