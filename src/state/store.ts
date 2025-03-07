@@ -60,31 +60,26 @@ const appSettings = create<AppSettings>((set) => ({
 type EmployeeData = {
     employees: Employee[];
     modifyID: string;
-    modifyNoteID: string;
     employee: any;
     note: any;
     setModifyID: (val: string) => void;
-    setModifyNoteID: (val: string) => void;
     getEmployees: () => void;
     setEmployees: () => void;
     getById: (id: string) => void;
     getNoteById: (id: string) => void;
     setEmployee: (keyValue: string, val: string) => void;
     saveEmployee: () => void;
-    saveNote: () => void;
+    saveNote: (val: any) => void;
 }
 const employeeData = create<EmployeeData>((set) => ({
     employees: [],
     modifyID: '',
-    modifyNoteID: '',
     employee: {},
     note: {id: 0, ownerID: 0, timeStamp: '', dateStamp: '', note: ''},
     setModifyID: (val) => {
         set(() => ({modifyID: val}))
     },
-    setModifyNoteID: (val) => {
-        set(() => ({modifyNoteID: val}))
-    },
+
     getEmployees: async () => {
         const result = await db.employees.toArray();
         if (result === undefined) {
@@ -145,7 +140,7 @@ const employeeData = create<EmployeeData>((set) => ({
     },
     saveEmployee: () => {
         // create new array and filter out old employee
-        let emps = [...employeeData.getState().employees]
+        let emps = [...employeeData.getState().note]
         let emp = employeeData.getState().employee
         emp.firstName = emp.firstName.toLowerCase()
         emp.lastName = emp.lastName.toLowerCase()
@@ -161,23 +156,14 @@ const employeeData = create<EmployeeData>((set) => ({
         // save to dexie DB
         db.employees.update(emp.id, emp)
     },
-    saveNote: () => {
+    saveNote: (val: any) => {
+        const dateStamp = new Date().toLocaleDateString()
+        const timeStamp = new Date().toLocaleTimeString()
+        set((state) => ({note: {...state.note, dateStampe: dateStamp, timeStamp: timeStamp, note: val}}))
         // create new array and filter out old employee
-        let emps = [...employeeData.getState().employees]
-        let emp = employeeData.getState().employee
-        emp.firstName = emp.firstName.toLowerCase()
-        emp.lastName = emp.lastName.toLowerCase()
-        emp.email = emp.email.toLowerCase()
-        emp.EEID = emp.EEID.toLowerCase()
-        const newEmps = emps.filter(item => item.id !== emp.id)
-        //push new employee to state array
-        newEmps.push(emp)
-        // Set state with new employee array
-        set(() => ({employees: newEmps}))
-        //  refresh state with current sorting
-        employeeData.getState().setEmployees()
+        let note = employeeData.getState().note
         // save to dexie DB
-        db.employees.update(emp.id, emp)
+        db.notes.update(note.id, note)
     },
 }))
 

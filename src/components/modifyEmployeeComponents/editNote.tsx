@@ -13,7 +13,7 @@ import {
     toolbarPlugin,
     UndoRedo
 } from '@mdxeditor/editor'
-import React from "react";
+import React, {useState} from "react";
 import '@mdxeditor/editor/style.css'
 import {useEmployeeData} from "../../state/store.ts";
 
@@ -22,8 +22,23 @@ interface Props {
 }
 
 function EditNote({tabShow}: Props) {
-    const ref = React.useRef<MDXEditorMethods>(null)
+    let ref = React.useRef<MDXEditorMethods>(null)
     const note = useEmployeeData.use.note()
+    const saveNote = useEmployeeData.use.saveNote()
+    const [message, setMessage] = useState('');
+
+    const handleOnChange = () => {
+        const timeoutId = setTimeout(() => {
+            console.log("inside timer")
+            setMessage('Delayed message after 2 seconds!');
+        }, 2000);
+
+        console.log("outside timer")
+
+        // Cleanup function to clear the timeout if the component unmounts
+        return () => clearTimeout(timeoutId);
+    }
+
 
     return (
         <div className={tabShow + " w-[100%]"} id="notes" role="tabpanel" aria-labelledby="notes-tab">
@@ -31,6 +46,7 @@ function EditNote({tabShow}: Props) {
                 <div className={"text-white flex w-[100%]"}>
                     <div className={"w-[75%]"}>
                         <MDXEditor
+                            onChange={() => handleOnChange()}
                             ref={ref}
                             className={"bg-white prose rounded-md editor"}
                             markdown={note.note}
@@ -69,10 +85,10 @@ function EditNote({tabShow}: Props) {
                 </button>
                 <button onClick={(e) => {
                     e.preventDefault();
-                    console.log(ref.current?.getMarkdown())
-                }}>Get markdown
+                    saveNote(ref.current?.getMarkdown())
+                }}> - Save -
                 </button>
-
+                {message}
 
             </form>
         </div>
