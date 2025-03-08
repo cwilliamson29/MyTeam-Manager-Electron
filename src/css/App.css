@@ -28,3 +28,25 @@
 .editor {
     max-width: 100% !important;
 }
+
+.prose {
+    /*padding: 0 !important;*/
+    line-height: 10px;
+
+}
+
+.prose p {
+    margin-top: 8px !important;
+    margin-bottom: 12px !important;
+    line-height: 18px;
+}
+
+.prose ol {
+    margin-top: 8px !important;
+    margin-bottom: 12px !important;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    margin-top: 1px;
+    margin-block: 0;
+}

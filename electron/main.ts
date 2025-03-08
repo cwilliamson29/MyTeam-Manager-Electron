@@ -2,6 +2,8 @@ import {app, BrowserWindow} from "electron";
 //import { createRequire } from "node:module";
 import {fileURLToPath} from "node:url";
 import path from "node:path";
+//import {Simulate} from "react-dom/test-utils";
+
 //import db from "electron-db";
 
 //const require = createRequire(import.meta.url);
@@ -28,6 +30,8 @@ export const RENDERER_DIST = path.join(process.env.APP_ROOT, "dist");
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
     ? path.join(process.env.APP_ROOT, "public")
     : RENDERER_DIST;
+
+// TODO: Add right click menu, aka contextMenu
 
 let win: BrowserWindow | null;
 

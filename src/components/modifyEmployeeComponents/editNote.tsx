@@ -76,7 +76,11 @@ function EditNote({tabShow}: Props) {
 
                     <div className={"pl-2 w-[25%] prose"}>
                         <h3 className={"text-gray-300"}>Help with styling?</h3>
-                        <p className={"text-gray-400 text-sm"}>To go from a list to a paragraph or heading you need to select between the two</p>
+                        <p className={"text-gray-400 text-sm"}>To go from a list to a "block type" fromt he drop down you will need to select between the two on NEW lines.</p>
+                        <h3 className={"text-gray-300"}>Saving the note?</h3>
+                        <p className={"text-gray-400 text-sm"}>The notes will auto save 1 second after typing stops.</p>
+                        <h3 className={"text-gray-300"}>Remove note?</h3>
+                        <p className={"text-gray-400 text-sm"}>Select all text and use backspace key to remove.</p>
                     </div>
                 </div>
                 <div className={"text-gray-400 text-xs pt-1"}>
