@@ -46,9 +46,16 @@ export const timeConvertT024 = (val: string) => {
     } else if (val === "12:00 AM" || val === "12:30 AM") {
         return "00:" + val.slice(3, 5)
     } else if (checkAM) {
-        return val.slice(0, 5)
+        console.log(val)
+        if (val === "10:00 AM" || val === "10:30 AM" || val === "11:00 AM" || val === "11:30 AM") {
+            return val.slice(0, 5)
+        } else {
+            const v = "0" + val
+            return v.slice(0, 5)
+        }
     } else {
         for (let i = 0; i < civiTimes.length; i++) {
+            //console.log(val + " " + civiTimes[i] + ': ' + `${val === civiTimes[i]}`)
             if (val === civiTimes[i]) {
                 return militaryTimes[i]
             }

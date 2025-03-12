@@ -1,7 +1,7 @@
 import {titleCase} from "../../helpers/employeeList-helpers.tsx";
 
 interface Props {
-    name: string;
+    name?: string;
     keyValue: string;
     arr: string[];
     error: boolean;
