@@ -25,6 +25,7 @@ export default function Modal({
   const [warning, setWarning] = useState(""); // 'border-3 border-red-600'
   const [TL, setTL] = useState("");
   const [employees, setEmployees] = useState<Employee[]>([]);
+  const [message, setMessage] = useState(""); // "Employees saved successfully!"
 
   const handleTLSelect = (key, val) => {
     setTL(val);
@@ -42,6 +43,7 @@ export default function Modal({
       addEmployeeHelper(emp);
     });
     setSaved(true);
+    setMessage("Employees saved successfully!");
   };
 
   const renderEmps = () => {
@@ -117,6 +119,13 @@ export default function Modal({
           onClick={(e) => handleClick(e)}
         >
           Generate
+        </div>
+        <div className="flex justify-center">
+          {message !== "" && (
+            <div className="p-2 text-center bg-yellow-200 rounded-md w-[50%]">
+              {message}
+            </div>
+          )}
         </div>
         <div className="pt-4">{employees.length !== 0 && renderEmps()}</div>
       </div>
