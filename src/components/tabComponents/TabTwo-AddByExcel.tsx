@@ -1,6 +1,9 @@
 import {useState} from "react";
 import Modal from "../TailwindElements/modal.tsx";
 import {processTL} from "../../helpers/addByExcelHelpers.tsx";
+import {db} from "../../helpers/db.ts";
+import {addEmployeeHelper} from "../../helpers/addEmployeeHelper.tsx";
+import {Employee} from "../../interfaces/employeeInterface.tsx";
 
 interface Props {
     show: string;
@@ -16,6 +19,7 @@ export default function TabTwoAddByExcel({show, tabShow, tabHide}: Props) {
     const [teamLeads, setTeamLeads] = useState<any>([]);
 
     const [isOpen, setIsOpen] = useState(false);
+    const [confirmOpen, setConfirmOpen] = useState(false);
 
     // Handle the selection of file and store it in state for use
     const handleChange = (e: any) => {
@@ -38,6 +42,17 @@ export default function TabTwoAddByExcel({show, tabShow, tabHide}: Props) {
     // SaveSetter to determine if browser requires refresh to update data
     const saveSetter = (val: boolean) => setSaved(val)
 
+    const handleSaveToDB = (employees: Employee[]) => {
+        if (saveMessage === '') {
+
+        }
+        db.employees.clear();
+        employees.map((emp) => {
+            addEmployeeHelper(emp);
+        });
+        setSaved(true);
+        setSaveMessage("Employees saved successfully!");
+    };
     return (
         <div
             className={show === "add-from-excel" ? tabShow : tabHide}
@@ -73,6 +88,7 @@ export default function TabTwoAddByExcel({show, tabShow, tabHide}: Props) {
                     teamLeads={teamLeads}
                     file={file}
                     setSaved={saveSetter}
+                    handleSave={handleSaveToDB}
                     saveMessage={saveMessage}
                 />
             </div>

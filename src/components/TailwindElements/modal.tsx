@@ -4,8 +4,7 @@ import {processFile} from "../../helpers/addByExcelHelpers.tsx";
 import {Employee} from "../../interfaces/employeeInterface.tsx";
 import TempTitle from "../tabComponents/displayComponents/tempTitle.tsx";
 import TempDisplay from "../tabComponents/displayComponents/tempDisplay.tsx";
-import {addEmployeeHelper} from "../../helpers/addEmployeeHelper.tsx";
-import {db} from "../../helpers/db.ts";
+import ConfirmModal from "./confirmModal.tsx";
 
 interface Props {
     isOpen: boolean;
@@ -13,7 +12,9 @@ interface Props {
     teamLeads: string[];
     file: any;
     setSaved: () => void;
+    handleSave: (val: Employee[]) => void;
     saveMessage: string;
+    confirm: boolean;
 }
 
 export default function Modal({
@@ -21,13 +22,31 @@ export default function Modal({
                                   onClose,
                                   teamLeads,
                                   file,
-                                  setSaved,
+                                  handleSave,
                                   saveMessage,
+                                  confirm,
                               }: Props) {
     const [warning, setWarning] = useState(""); // 'border-3 border-red-600'
     const [selectedTL, setSelectedTL] = useState("");
     const [employees, setEmployees] = useState<Employee[]>([]);
     const [message, setMessage] = useState(""); // "Employees saved successfully!"
+    const [confirmOpen, setConfirmOpen] = useState(false);
+    const [confirmed, setConfirmed] = useState(false)
+    const confirmMsg = {
+        // <div className="border-2 border-red-800 bg-red-200 text-black justify-center">
+        title: "Please confirm these changes by clicking save again.",
+        list: [
+            "All employees will be removed",
+            "All employees NOTES will be removed",
+            "If you need the notes then now is the time to copy the information."]
+    }
+
+    const openConfirm = () => setConfirmOpen(true)
+    const closeConfirm = () => setConfirmOpen(false)
+    const handleConfirm = () => {
+        closeConfirm()
+        handleSave(employees)
+    }
 
     const handleTLSelect = (key: string, val: string) => {
         // key never used due to reusing selectbox component
@@ -37,18 +56,6 @@ export default function Modal({
 
     const handleClick = (e: any) => {
         processFile(e, file, selectedTL, handleSetEmployees);
-    };
-
-    const handleSubmit = () => {
-        if (saveMessage === '') {
-
-        }
-        db.employees.clear();
-        employees.map((emp) => {
-            addEmployeeHelper(emp);
-        });
-        setSaved(true);
-        setMessage("Employees saved successfully!");
     };
 
     const renderEmps = () => {
@@ -74,19 +81,20 @@ export default function Modal({
                     );
                 })}
                 <div className="flex justify-center">
-                    {saveMessage !== '' &&
-                        <div className="border-2 border-red-800 bg-red-200 text-black justify-center">
-                            <p>Please confirm these changes by clicking save again.</p>
-                            <ul>
-                                <li>All employees will be removed</li>
-                                <li>All employees NOTES will be removed</li>
-                                <li>If you need the notes then now is the time to copy the information.</li>
-                            </ul>
-                        </div>
-                    }
+                    {/*{saveMessage !== '' &&*/}
+                    {/*    <div className="border-2 border-red-800 bg-red-200 text-black justify-center">*/}
+                    {/*        <p>Please confirm these changes by clicking save again.</p>*/}
+                    {/*        <ul>*/}
+                    {/*            <li>All employees will be removed</li>*/}
+                    {/*            <li>All employees NOTES will be removed</li>*/}
+                    {/*            <li>If you need the notes then now is the time to copy the information.</li>*/}
+                    {/*        </ul>*/}
+                    {/*    </div>*/}
+                    {/*}*/}
                     <div
                         className="w-[75%] bg-red-500 rounded-md p-2 m-2 text-center"
-                        onClick={handleSubmit}
+                        // onClick={() => handleSave(employees)}
+                        onClick={openConfirm}
                     >
                         SAVE EMPLOYYEES
                     </div>
@@ -97,16 +105,8 @@ export default function Modal({
 
     return (
         <div
-            className={`fixed inset-0 z-50 flex items-center justify-center bg-black/75 ${
-                isOpen ? "block " : "hidden "
-            }`}
-        >
-            <div
-                className={
-                    "bg-white text-black p-1 pl-2 pr-2 rounded shadow-lg w-[95%] max-h-[95%] " +
-                    warning
-                }
-            >
+            className={`fixed inset-0 z-50 flex items-center justify-center bg-black/75 ${isOpen ? "block " : "hidden "}`}>
+            <div className={"bg-white text-black p-1 pl-2 pr-2 rounded shadow-lg w-[95%] max-h-[95%] " + warning}>
                 <div className="flex justify-between">
                     <div className="w-90 prose">
                         <h2>Add Employees From Excel</h2>
@@ -144,6 +144,7 @@ export default function Modal({
                 </div>
                 <div className="pt-4">{employees.length !== 0 && renderEmps()}</div>
             </div>
+            <ConfirmModal isOpen={confirmOpen} onClose={closeConfirm} message={confirmMsg} setConfirm={handleConfirm}/>
         </div>
     );
 }

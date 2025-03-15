@@ -46,6 +46,11 @@
     margin-bottom: 12px !important;
 }
 
+.prose li {
+    line-height: 20px;
+    padding-top: 0px;
+}
+
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
     margin-top: 1px;
     margin-block: 0;
