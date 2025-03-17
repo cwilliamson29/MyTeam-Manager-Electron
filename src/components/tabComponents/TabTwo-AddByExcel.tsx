@@ -11,7 +11,6 @@ interface Props {
     tabHide: string;
 }
 
-// TODO: `Need to add updating by excel parsing functionality`
 export default function TabTwoAddByExcel({show, tabShow, tabHide}: Props) {
     const [saved, setSaved] = useState(false);
     const [file, setFile] = useState<any>();

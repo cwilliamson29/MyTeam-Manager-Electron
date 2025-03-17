@@ -42,6 +42,7 @@ export const css = (args: string) => {
 
 // Convert to 24 hour times
 export const timeConvertT024 = (val: string) => {
+    //console.log(val)
     let checkAM = val.toLowerCase().includes("am");
 
     if (val === "12:00 PM" || val === "12:30 PM") {
