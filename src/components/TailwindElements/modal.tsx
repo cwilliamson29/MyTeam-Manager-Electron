@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import SelectBox from "./selectBox.tsx";
 import {processFile} from "../../helpers/addByExcelHelpers.tsx";
-import {Employee} from "../../interfaces/employeeInterface.tsx";
+import {ConfirmMessage, Employee} from "../../interfaces/employeeInterface.tsx";
 import TempTitle from "../tabComponents/displayComponents/tempTitle.tsx";
 import TempDisplay from "../tabComponents/displayComponents/tempDisplay.tsx";
 import ConfirmModal from "./confirmModal.tsx";
@@ -11,9 +11,9 @@ interface Props {
     onClose: () => void;
     teamLeads: string[];
     file: any;
-    setSaved: () => void;
     handleSave: (val: Employee[]) => void;
     saveMessage: string;
+    confirmMsg: ConfirmMessage;
     confirm: boolean;
 }
 
@@ -24,6 +24,7 @@ export default function Modal({
                                   file,
                                   handleSave,
                                   saveMessage,
+                                  confirmMsg,
                                   confirm,
                               }: Props) {
     const [warning, setWarning] = useState(""); // 'border-3 border-red-600'
@@ -32,22 +33,17 @@ export default function Modal({
     const [message, setMessage] = useState(""); // "Employees saved successfully!"
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [confirmed, setConfirmed] = useState(false)
-    const confirmMsg = {
-        // <div className="border-2 border-red-800 bg-red-200 text-black justify-center">
-        title: "Please confirm these changes by clicking save again.",
-        list: [
-            "All employees will be removed",
-            "All employees NOTES will be removed",
-            "If you need the notes then now is the time to copy the information."]
-    }
+
 
     const openConfirm = () => setConfirmOpen(true)
     const closeConfirm = () => setConfirmOpen(false)
     const handleConfirm = () => {
-        closeConfirm()
+        setMessage('Employees saved successfully and you may close this window!')
         handleSave(employees)
+        closeConfirm()
     }
 
+    // @ts-ignore
     const handleTLSelect = (key: string, val: string) => {
         // key never used due to reusing selectbox component
         setSelectedTL(val);
@@ -81,21 +77,7 @@ export default function Modal({
                     );
                 })}
                 <div className="flex justify-center">
-                    {/*{saveMessage !== '' &&*/}
-                    {/*    <div className="border-2 border-red-800 bg-red-200 text-black justify-center">*/}
-                    {/*        <p>Please confirm these changes by clicking save again.</p>*/}
-                    {/*        <ul>*/}
-                    {/*            <li>All employees will be removed</li>*/}
-                    {/*            <li>All employees NOTES will be removed</li>*/}
-                    {/*            <li>If you need the notes then now is the time to copy the information.</li>*/}
-                    {/*        </ul>*/}
-                    {/*    </div>*/}
-                    {/*}*/}
-                    <div
-                        className="w-[75%] bg-red-500 rounded-md p-2 m-2 text-center"
-                        // onClick={() => handleSave(employees)}
-                        onClick={openConfirm}
-                    >
+                    <div className="w-[75%] bg-red-500 rounded-md p-2 m-2 text-center" onClick={openConfirm}>
                         SAVE EMPLOYYEES
                     </div>
                 </div>
@@ -106,15 +88,12 @@ export default function Modal({
     return (
         <div
             className={`fixed inset-0 z-50 flex items-center justify-center bg-black/75 ${isOpen ? "block " : "hidden "}`}>
-            <div className={"bg-white text-black p-1 pl-2 pr-2 rounded shadow-lg w-[95%] max-h-[95%] " + warning}>
+            <div className={"bg-white text-black p-1 pl-2 pr-2 rounded shadow-lg w-[95%] max-h-[93%] overflow-auto " + warning}>
                 <div className="flex justify-between">
                     <div className="w-90 prose">
                         <h2>Add Employees From Excel</h2>
                     </div>
-                    <div
-                        className=" bg-black text-white p-2 rounded-md cursor-pointer"
-                        onClick={onClose}
-                    >
+                    <div className=" bg-black text-white p-2 rounded-md cursor-pointer" onClick={onClose}>
                         Close
                     </div>
                 </div>
@@ -131,8 +110,7 @@ export default function Modal({
                 </div>
                 <div
                     className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1 text-center w-[220px] h-full ml-5 mr-2"
-                    onClick={(e) => handleClick(e)}
-                >
+                    onClick={(e) => handleClick(e)}>
                     Generate
                 </div>
                 <div className="flex justify-center">

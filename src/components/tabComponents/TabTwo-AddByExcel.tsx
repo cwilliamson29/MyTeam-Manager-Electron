@@ -3,7 +3,7 @@ import Modal from "../TailwindElements/modal.tsx";
 import {processTL} from "../../helpers/addByExcelHelpers.tsx";
 import {db} from "../../helpers/db.ts";
 import {addEmployeeHelper} from "../../helpers/addEmployeeHelper.tsx";
-import {Employee} from "../../interfaces/employeeInterface.tsx";
+import {ConfirmMessage, Employee} from "../../interfaces/employeeInterface.tsx";
 
 interface Props {
     show: string;
@@ -17,7 +17,16 @@ export default function TabTwoAddByExcel({show, tabShow, tabHide}: Props) {
     const [saveMessage, setSaveMessage] = useState('');
     const [file, setFile] = useState<any>();
     const [teamLeads, setTeamLeads] = useState<any>([]);
-
+    // message to send to modal confirm
+    const confirmMsg: ConfirmMessage = {
+        // <div className="border-2 border-red-800 bg-red-200 text-black justify-center">
+        title: "Please confirm these changes by clicking save again.",
+        list: [
+            "All employees will be removed",
+            "All employees NOTES will be removed",
+            "If you need the notes then now is the time to copy the information."]
+    }
+    // Modal openers and closers
     const [isOpen, setIsOpen] = useState(false);
     const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -87,9 +96,9 @@ export default function TabTwoAddByExcel({show, tabShow, tabHide}: Props) {
                     onClose={closeModal}
                     teamLeads={teamLeads}
                     file={file}
-                    setSaved={saveSetter}
                     handleSave={handleSaveToDB}
                     saveMessage={saveMessage}
+                    confirmMsg={confirmMsg}
                 />
             </div>
             <div className="ml-[120px] pt-1 text-xs text-gray-400">

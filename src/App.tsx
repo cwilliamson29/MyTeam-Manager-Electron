@@ -32,7 +32,7 @@ function App() {
 
     return (
         <div className="container-fluid">
-            <div className="titleBar"></div>
+            <div className={"titleBar w-[100%] " + settings.colorMode + "-mode"}></div>
             <SettingsBar/>
             <EmployeeListTitle/>
             <DisplayEmployees/>
