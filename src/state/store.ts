@@ -118,14 +118,13 @@ const employeeData = create<EmployeeData>((set) => ({
         //console.log(result);
         if (result === undefined) {
             const ownerID = id;
-            const dateStamp = new Date().toLocaleDateString();
+            const dateStamp = new Date().toLocaleDateString().toString();
             const timeStamp = new Date().toLocaleTimeString().toString();
-            
+
             const note = "# Welcome World";
             try {
                 // Add the note!
                 await db.notes.add({
-                    // @ts-ignore
                     ownerID,
                     dateStamp,
                     timeStamp,
@@ -148,12 +147,12 @@ const employeeData = create<EmployeeData>((set) => ({
         let emps = [...employeeData.getState().employees];
         let emp = employeeData.getState().employee;
         emp.firstName = emp.firstName!.toLowerCase();
-        emp.lastName = emp.lastName.toLowerCase();
-        emp.email = emp.email.toLowerCase();
-        emp.EEID = emp.EEID.toLowerCase();
+        emp.lastName = emp.lastName!.toLowerCase();
+        emp.email = emp.email!.toLowerCase();
+        emp.EEID = emp.EEID!.toLowerCase();
         const newEmps = emps.filter((item) => item.id !== emp.id);
         //push new employee to state array
-        newEmps.push(emp);
+        newEmps.push(<Employee>emp);
         // Set state with new employee array
         set(() => ({employees: newEmps}));
         //  refresh state with current sorting

@@ -36,6 +36,7 @@ export interface EmployeeValidation {
 export interface Notes {
     id: number;
     ownerID: number;
+    dateStamp: string;
     timeStamp: string;
     note: string;
 }

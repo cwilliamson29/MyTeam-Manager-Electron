@@ -29,8 +29,11 @@ function SettingsBar() {
                         {!addEmpVisible ? <FontAwesomeIcon icon={faSquarePlus} className="settings-icon"/> :
                             <FontAwesomeIcon icon={faSquareXmark} className="settings-icon"/>}
                     </div>
-                    <div className="pr-3 text-center" onClick={() => handleSettingClick()}>
-                        <FontAwesomeIcon icon={faGear} className="settings-icon"/>
+                    <div className="flex pr-3 text-center" onClick={() => handleSettingClick()}>
+                        <p className="mr-1">{!settingVisible ? "" : "Close"}</p>
+                        {!settingVisible ? <FontAwesomeIcon icon={faGear} className="settings-icon"/> :
+                            <FontAwesomeIcon icon={faSquareXmark} className="settings-icon"/>}
+                        {/*<FontAwesomeIcon icon={faGear} className="settings-icon"/>*/}
                     </div>
                 </div>
             </div>

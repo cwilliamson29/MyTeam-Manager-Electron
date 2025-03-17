@@ -14,7 +14,6 @@ interface Props {
 // TODO: `Need to add updating by excel parsing functionality`
 export default function TabTwoAddByExcel({show, tabShow, tabHide}: Props) {
     const [saved, setSaved] = useState(false);
-    const [saveMessage, setSaveMessage] = useState('');
     const [file, setFile] = useState<any>();
     const [teamLeads, setTeamLeads] = useState<any>([]);
     // message to send to modal confirm
@@ -28,7 +27,6 @@ export default function TabTwoAddByExcel({show, tabShow, tabHide}: Props) {
     }
     // Modal openers and closers
     const [isOpen, setIsOpen] = useState(false);
-    const [confirmOpen, setConfirmOpen] = useState(false);
 
     // Handle the selection of file and store it in state for use
     const handleChange = (e: any) => {
@@ -48,19 +46,12 @@ export default function TabTwoAddByExcel({show, tabShow, tabHide}: Props) {
             window.location.reload();
         }
     };
-    // SaveSetter to determine if browser requires refresh to update data
-    const saveSetter = (val: boolean) => setSaved(val)
-
     const handleSaveToDB = (employees: Employee[]) => {
-        if (saveMessage === '') {
-
-        }
         db.employees.clear();
         employees.map((emp) => {
             addEmployeeHelper(emp);
         });
         setSaved(true);
-        setSaveMessage("Employees saved successfully!");
     };
     return (
         <div
@@ -97,7 +88,6 @@ export default function TabTwoAddByExcel({show, tabShow, tabHide}: Props) {
                     teamLeads={teamLeads}
                     file={file}
                     handleSave={handleSaveToDB}
-                    saveMessage={saveMessage}
                     confirmMsg={confirmMsg}
                 />
             </div>

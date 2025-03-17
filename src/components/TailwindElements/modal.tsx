@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import SelectBox from "./selectBox.tsx";
 import {processFile} from "../../helpers/addByExcelHelpers.tsx";
 import {ConfirmMessage, Employee} from "../../interfaces/employeeInterface.tsx";
@@ -12,9 +12,7 @@ interface Props {
     teamLeads: string[];
     file: any;
     handleSave: (val: Employee[]) => void;
-    saveMessage: string;
     confirmMsg: ConfirmMessage;
-    confirm: boolean;
 }
 
 export default function Modal({
@@ -23,16 +21,12 @@ export default function Modal({
                                   teamLeads,
                                   file,
                                   handleSave,
-                                  saveMessage,
                                   confirmMsg,
-                                  confirm,
                               }: Props) {
-    const [warning, setWarning] = useState(""); // 'border-3 border-red-600'
     const [selectedTL, setSelectedTL] = useState("");
     const [employees, setEmployees] = useState<Employee[]>([]);
     const [message, setMessage] = useState(""); // "Employees saved successfully!"
     const [confirmOpen, setConfirmOpen] = useState(false);
-    const [confirmed, setConfirmed] = useState(false)
 
 
     const openConfirm = () => setConfirmOpen(true)
@@ -88,7 +82,7 @@ export default function Modal({
     return (
         <div
             className={`fixed inset-0 z-50 flex items-center justify-center bg-black/75 ${isOpen ? "block " : "hidden "}`}>
-            <div className={"bg-white text-black p-1 pl-2 pr-2 rounded shadow-lg w-[95%] max-h-[93%] overflow-auto " + warning}>
+            <div className={"bg-white text-black p-1 pl-2 pr-2 rounded shadow-lg w-[95%] max-h-[93%] overflow-auto "}>
                 <div className="flex justify-between">
                     <div className="w-90 prose">
                         <h2>Add Employees From Excel</h2>
