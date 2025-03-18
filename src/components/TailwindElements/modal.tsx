@@ -71,8 +71,8 @@ export default function Modal({
                     );
                 })}
                 <div className="flex justify-center">
-                    <div className="w-[75%] bg-red-500 rounded-md p-2 m-2 text-center" onClick={openConfirm}>
-                        SAVE EMPLOYYEES
+                    <div className="w-[75%] bg-red-500 rounded-md p-2 m-2 text-center cursor-pointer" onClick={openConfirm}>
+                        SAVE EMPLOYEES
                     </div>
                 </div>
             </>
@@ -103,7 +103,7 @@ export default function Modal({
                     />
                 </div>
                 <div
-                    className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1 text-center w-[220px] h-full ml-5 mr-2"
+                    className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1 text-center w-[220px] h-full ml-5 mr-2 cursor-pointer"
                     onClick={(e) => handleClick(e)}>
                     Generate
                 </div>

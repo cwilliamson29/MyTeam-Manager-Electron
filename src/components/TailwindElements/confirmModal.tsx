@@ -22,10 +22,10 @@ function ConfirmModal({isOpen, onClose, message, setConfirm}: Props) {
                 <div className={"prose"}>
                     <p>{message.title}</p>
                     <ul>
-                        {message.list.map((item: string) => <li>{item}</li>)}
+                        {message.list.map((item: string) => <li key={item}>{item}</li>)}
                     </ul>
                 </div>
-                <div className="bg-red-600 rounded-md hover:bg-red-700 p-2 w-[50%] text-center ml-[25%]" onClick={setConfirm}>Confirm Changes</div>
+                <div className="bg-red-600 rounded-md hover:bg-red-700 p-2 w-[50%] text-center ml-[25%] cursor-pointer" onClick={setConfirm}>Confirm Changes</div>
             </div>
         </div>
     )

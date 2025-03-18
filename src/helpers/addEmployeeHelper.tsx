@@ -35,3 +35,11 @@ export const addEmployeeHelper = (empl: Employee) => {
 
     return addEmployee();
 };
+
+export const updateEmployeesHelper = (empl: Employee, id: any) => {
+    const shiftStart = empl.shiftStart;
+    const shiftEnd = empl.shiftEnd;
+    const daysWorked = empl.daysWorked;
+
+    db.employees.update(id, {shiftStart: shiftStart, shiftEnd: shiftEnd, daysWorked: daysWorked})
+}

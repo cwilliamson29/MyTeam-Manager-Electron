@@ -5,6 +5,8 @@ import createSelectors from "./selectors.ts";
 import {sortByFirstName, sortByLastName, sortByTimeAndLastName, sortByTimeAndName,} from "../helpers/employeeList-helpers.tsx";
 import {addSettingsHelper} from "../helpers/addSettingsHelper.tsx";
 
+// TODO: Separate stores
+
 // AppLoad - Determine if app has been loaded
 type AppLoad = {
     appLoad: boolean;
@@ -95,17 +97,17 @@ const employeeData = create<EmployeeData>((set) => ({
         const sortByTime = appSettings.getState().appSettings.sortByTime;
         const sortByName = appSettings.getState().appSettings.sortByFirstName;
 
-        const array = employeeData.getState().employees;
+        const arr = employeeData.getState().employees;
         if (!sortByTime && sortByName) {
-            sortByFirstName(array);
+            sortByFirstName(arr);
         } else if (!sortByTime && !sortByName) {
-            sortByLastName(array);
+            sortByLastName(arr);
         } else if (sortByTime && sortByName) {
-            sortByTimeAndName(array);
+            sortByTimeAndName(arr);
         } else if (sortByTime && !sortByName) {
-            sortByTimeAndLastName(array);
+            sortByTimeAndLastName(arr);
         }
-        set(() => ({employees: array}));
+        set(() => ({employees: arr}));
     },
     getById: async (id: any) => {
         let result = await db.employees.get(id);

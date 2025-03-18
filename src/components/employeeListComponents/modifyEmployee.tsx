@@ -16,7 +16,7 @@ function ModifyEmployee() {
     const setTabView = (val: string) => {
         setView(val)
     }
-
+    // TODO: Add remove function
     return (
         <div className={""}>
             <TabView show={view} names={names} setter={setTabView}/>

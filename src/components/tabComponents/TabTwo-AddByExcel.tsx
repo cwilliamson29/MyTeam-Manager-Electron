@@ -18,11 +18,11 @@ export default function TabTwoAddByExcel({show, tabShow, tabHide}: Props) {
     // message to send to modal confirm
     const confirmMsg: ConfirmMessage = {
         // <div className="border-2 border-red-800 bg-red-200 text-black justify-center">
-        title: "Please confirm these changes by clicking save again.",
+        title: "Please confirm these changes.",
         list: [
-            "All employees will be removed",
+            "All PREVIOUS employees will be removed",
             "All employees NOTES will be removed",
-            "If you need the notes then now is the time to copy the information."]
+            "Be sure to back up notes if required."]
     }
     // Modal openers and closers
     const [isOpen, setIsOpen] = useState(false);
@@ -53,12 +53,7 @@ export default function TabTwoAddByExcel({show, tabShow, tabHide}: Props) {
         setSaved(true);
     };
     return (
-        <div
-            className={show === "add-from-excel" ? tabShow : tabHide}
-            id="add-team-member"
-            role="tabpanel"
-            aria-labelledby="add-team-member-tab"
-        >
+        <div className={show === "add-from-excel" ? tabShow : tabHide} id="add-team-member" role="tabpanel" aria-labelledby="add-team-member-tab">
             <h3 className="mb-3 text-white">Add From Excel</h3>
             <div className="flex ">
                 <label
