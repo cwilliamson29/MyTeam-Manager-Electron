@@ -148,7 +148,7 @@ export default function TabOneAddSingleEmployee({
                             Days Worked:
                         </legend>
                         {daysSliced.map((day) => (
-                            <CheckBox key={day} day={day} onChange={handleCheckBox}/>
+                            <CheckBox key={day} val={day} onChange={handleCheckBox}/>
                         ))}
                     </fieldset>
                 </div>
