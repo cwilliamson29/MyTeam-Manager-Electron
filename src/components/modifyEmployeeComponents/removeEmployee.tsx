@@ -12,6 +12,7 @@ function RemoveEmployee({ show, tabShow, tabHide }: Props) {
   const employee = useEmployeeData.getState().employee;
   const removeEmployee = useEmployeeData.getState().removeEmployee;
   const [checked, setChecked] = useState(false);
+  const [msg, setMsg] = useState({ status: "none", val: "" });
 
   const handleChange = () => setChecked(!checked);
 
@@ -19,10 +20,22 @@ function RemoveEmployee({ show, tabShow, tabHide }: Props) {
     e.preventDefault();
     if (checked) {
       removeEmployee(employee.id);
+      setMsg({ status: "success", val: "Employee removed successfully" });
     } else {
-      console.log("not checked");
+      setMsg({ status: "error", val: "Please confirm employee removal" });
     }
   };
+  const statusMsg = (mes: any) => (
+    <div
+      className={
+        mes.status === "error"
+          ? "p-2 bg-red-200 text-center text-black rounded-lg w-75 mb-2"
+          : "p-4 bg-yellow-300 text-center text-black rounded-lg w-75 mb-2"
+      }
+    >
+      {mes.val}
+    </div>
+  );
   return (
     <div
       className={show === "remove" ? tabShow : tabHide}
@@ -31,11 +44,26 @@ function RemoveEmployee({ show, tabShow, tabHide }: Props) {
       aria-labelledby="remove-tab"
     >
       <form onSubmit={(e) => handleSubmit(e)}>
+        {msg.status === "error" && (
+          <div
+            className={
+              "p-2 bg-red-200 text-center text-black rounded-lg w-75 mb-2"
+            }
+          >
+            {msg.val}
+          </div>
+        )}
         <div className="flex bg-slate-900 text-white rounded-lg mb-2 p-2">
-          <CheckBox val={"Remove Employee? "} onChange={handleChange} />
+          <div
+            className={
+              msg.status === "error" ? "border-1 border-red-500 rounded-md" : ""
+            }
+          >
+            <CheckBox val={"Remove Employee? "} onChange={handleChange} />
+          </div>
           <button
             type="submit"
-            className="ml-5 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1 text-center me-2 mb-2"
+            className="ml-5 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 text-center mt-2 me-2 mb-2"
           >
             Remove Employee
           </button>
