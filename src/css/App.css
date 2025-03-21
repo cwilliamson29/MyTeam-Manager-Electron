@@ -22,10 +22,10 @@
 
 .titleBar {
     app-region: drag;
-    height: 30px;
+    height: 40px;
     position: sticky;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     /*background-color: red;*/
 }
 
