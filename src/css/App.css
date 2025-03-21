@@ -26,7 +26,6 @@
     position: sticky;
     top: 0;
     left: 0;
-    /*background-color: red;*/
 }
 
 .editor {
@@ -34,7 +33,6 @@
 }
 
 .prose {
-    /*padding: 0 !important;*/
     line-height: 10px;
 
 }
