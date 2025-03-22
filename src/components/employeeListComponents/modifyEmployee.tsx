@@ -11,7 +11,7 @@ function ModifyEmployee() {
     let names: string[] = ["Edit Coaching", "Edit Shift", "Edit Contact Info", "Notes", "Remove"]
     let [view, setView] = useState("edit-coaching")
 
-    let tabShow = "p-4 rounded-lg bg-gray-50 dark:bg-gray-800";
+    let tabShow = "p-4 rounded-lg  dark:bg-gray-800";
     let tabHide = "hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
 
     const setTabView = (val: string) => {

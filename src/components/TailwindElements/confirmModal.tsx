@@ -12,7 +12,7 @@ function ConfirmModal({isOpen, onClose, message, setConfirm}: Props) {
         <div className={`fixed inset-0 z-50 flex items-center justify-center bg-yellow-200/50 ${isOpen ? "block " : "hidden "}`}>
             <div className={"bg-white text-black p-1 pl-2 pr-2 rounded shadow-lg w-[35%] max-h-[95%] "}>
                 <div className="flex justify-between">
-                    <div className="w-90 prose">
+                    <div className="w-90 prose text-white">
                         <h2>Confirm Changes</h2>
                     </div>
                     <div className=" bg-black text-white p-2 rounded-md cursor-pointer" onClick={onClose}>

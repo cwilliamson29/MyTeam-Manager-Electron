@@ -13,7 +13,7 @@ function AddEmployee({show}: Props) {
     let names: string[] = ["Add Team Member", "Add From Excel", "Update From Excel"]
     let [view, setView] = useState("add-team-member")
 
-    let tabShow = "p-4 rounded-lg bg-gray-50 dark:bg-gray-800";
+    let tabShow = "p-4 text-white rounded-lg bg-gray-800 dark:bg-gray-800";
     let tabHide = "hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
 
     const setTabView = (val: string) => {

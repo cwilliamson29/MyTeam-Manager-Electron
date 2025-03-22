@@ -66,7 +66,7 @@ export default function TabThreeUpdateByExcel({show, tabShow, tabHide}: Props) {
     };
     return (
         <div className={show === "update-from-excel" ? tabShow : tabHide} id="add-team-member" role="tabpanel" aria-labelledby="add-team-member-tab">
-            <h3 className="mb-3 text-white">Add From Excel</h3>
+            <h3 className="mb-3 text-white">Update From Excel</h3>
             <div className="flex ">
                 <label
                     className="text-sm text-white font-medium text-gray-900 bg-gray-600 rounded-l-md pt-1 pl-2 w-[120px]"

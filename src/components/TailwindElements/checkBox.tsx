@@ -15,7 +15,7 @@ function CheckBox({ val, onChange }: Props) {
       />
       <label
         htmlFor="checkbox-1"
-        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+        className="ms-2 text-sm font-medium text-white dark:text-gray-300"
       >
         {val}
       </label>
