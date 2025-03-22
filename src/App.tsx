@@ -39,10 +39,6 @@ function App() {
     // Usage
     return (
         <div className="container-fluid">
-            {/*<div*/}
-            {/*    className={"titleBar w-[100%] " + settings.colorMode + "-mode"}*/}
-            {/*></div>*/}
-            {/*<TitleBar title={"My Team Manager"} />*/}
             <SettingsBar />
             <EmployeeListTitle />
             <DisplayEmployees />
