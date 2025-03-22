@@ -1,7 +1,14 @@
-import {app, BrowserWindow} from "electron";
+import { app, BrowserWindow } from "electron";
 //import { createRequire } from "node:module";
-import {fileURLToPath} from "node:url";
+import { fileURLToPath } from "node:url";
 import path from "node:path";
+import {
+    attachTitlebarToWindow,
+    setupTitlebar,
+} from "custom-electron-titlebar/main";
+
+setupTitlebar();
+
 //import {Simulate} from "react-dom/test-utils";
 
 //import db from "electron-db";
@@ -35,23 +42,28 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
 
 let win: BrowserWindow | null;
 
+// TODO: Add custom titlebar
 function createWindow() {
     win = new BrowserWindow({
         icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
         webPreferences: {
             nodeIntegration: true,
+            contextIsolation: false,
             preload: path.join(__dirname, "preload.mjs"),
         },
         width: 1075,
-        height: 1080,
+        height: 900,
         frame: false,
         titleBarStyle: "hidden",
-        ...(process.platform !== 'darwin' ? {titleBarOverlay: true} : {})
+        titleBarOverlay: true,
     });
 
     // Test active push message to Renderer-process.
     win.webContents.on("did-finish-load", () => {
-        win?.webContents.send("main-process-message", new Date().toLocaleString());
+        win?.webContents.send(
+            "main-process-message",
+            new Date().toLocaleString(),
+        );
     });
 
     if (VITE_DEV_SERVER_URL) {
@@ -60,6 +72,7 @@ function createWindow() {
         // win.loadFile('dist/index.html')
         win.loadFile(path.join(RENDERER_DIST, "index.html"));
     }
+    attachTitlebarToWindow(win);
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common
