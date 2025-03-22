@@ -25,17 +25,6 @@ function RemoveEmployee({ show, tabShow, tabHide }: Props) {
       setMsg({ status: "error", val: "Please confirm employee removal" });
     }
   };
-  const statusMsg = (mes: any) => (
-    <div
-      className={
-        mes.status === "error"
-          ? "p-2 bg-red-200 text-center text-black rounded-lg w-75 mb-2"
-          : "p-4 bg-yellow-300 text-center text-black rounded-lg w-75 mb-2"
-      }
-    >
-      {mes.val}
-    </div>
-  );
   return (
     <div
       className={show === "remove" ? tabShow : tabHide}
