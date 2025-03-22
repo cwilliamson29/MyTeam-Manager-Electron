@@ -6,17 +6,15 @@ import {
     attachTitlebarToWindow,
     setupTitlebar,
 } from "custom-electron-titlebar/main";
+import contextMenu from "electron-context-menu";
+
+contextMenu({
+    showSaveImageAs: true,
+});
 
 setupTitlebar();
 
-//import {Simulate} from "react-dom/test-utils";
-
-//import db from "electron-db";
-
-//const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-//const location = path.join(__dirname, "data");
 
 // The built directory structure
 //
@@ -38,11 +36,8 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
     ? path.join(process.env.APP_ROOT, "public")
     : RENDERER_DIST;
 
-// TODO: Add right click menu, aka contextMenu
-
 let win: BrowserWindow | null;
 
-// TODO: Add custom titlebar
 function createWindow() {
     win = new BrowserWindow({
         icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
