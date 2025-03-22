@@ -1,6 +1,6 @@
-import {read, utils} from "xlsx";
-import {Employee} from "../interfaces/employeeInterface.tsx";
-import {timeConvertT024} from "./employeeList-helpers.tsx"; // interface Props {
+import { read, utils } from "xlsx";
+import { Employee } from "../interfaces/employeeInterface.tsx";
+import { timeConvertT024 } from "./employeeList-helpers.tsx"; // interface Props {
 
 export async function processFile(
     e: any,
@@ -18,13 +18,16 @@ export async function processFile(
     data.map((emps: any) => {
         const keys = Object.keys(emps);
         if (emps.TL.toLocaleLowerCase() === TL) {
+            // @ts-ignore
             let emp: Employee = {};
             let shift = emps[keys[0]];
             let sep = shift.indexOf("-");
             let shiftStart = shift.slice(0, sep).trim();
             let shiftEnd = shift.slice(sep + 1, shift.length).trim();
 
+            // @ts-ignore
             emp.shiftStart = timeConvertT024(shiftStart);
+            // @ts-ignore
             emp.shiftEnd = timeConvertT024(shiftEnd);
             emp.daysWorked = emps[keys[1]] as string;
             emp.firstName = emps[keys[2]].toLowerCase() as string;
@@ -64,6 +67,11 @@ export async function processTL(
     setTeamLeads(TL);
 }
 
-export const findMissingEmployee = (employees: Employee[], tempEmployees: Employee[]) => {
-    return tempEmployees.filter(tEmp => !employees.find(emp => emp.EEID === tEmp.EEID))
-}
+export const findMissingEmployee = (
+    employees: Employee[],
+    tempEmployees: Employee[],
+) => {
+    return tempEmployees.filter(
+        (tEmp) => !employees.find((emp) => emp.EEID === tEmp.EEID),
+    );
+};
