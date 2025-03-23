@@ -6,9 +6,11 @@ import { useAppLoad, useAppSettings, useEmployeeData } from "./state/store.ts";
 import { Titlebar, TitlebarColor } from "custom-electron-titlebar";
 
 window.addEventListener("DOMContentLoaded", () => {
-    return new Titlebar({
+    new Titlebar({
         backgroundColor: TitlebarColor.fromHex("#000000"),
         titleHorizontalAlignment: "center",
+        menuTransparency: 100,
+        //removeMenuBar: true,
     });
 });
 

@@ -1,5 +1,4 @@
 import { app, BrowserWindow } from "electron";
-//import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { attachTitlebarToWindow, setupTitlebar } from "custom-electron-titlebar/main";
@@ -36,17 +35,18 @@ let win: BrowserWindow | null;
 function createWindow() {
 	win = new BrowserWindow({
 		icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
-		webPreferences: {
-			nodeIntegration: true,
-			contextIsolation: false,
-			preload: path.join(__dirname, "preload.mjs"),
-		},
 		width: 1075,
 		height: 900,
 		frame: false,
 		transparent: true,
 		titleBarStyle: "hidden",
 		titleBarOverlay: true,
+		webPreferences: {
+			nodeIntegration: true,
+			contextIsolation: false,
+			sandbox: false,
+			preload: path.join(__dirname, "preload.mjs"),
+		},
 	});
 
 	// Test active push message to Renderer-process.
