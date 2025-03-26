@@ -9,7 +9,7 @@ function Footer() {
 				</a>
 			</div>
 			<div className="text-right pr-2 flex">
-				<div>Version {pkg.version}</div>
+				<div>Version: {pkg.version}</div>
 			</div>
 		</div>
 	);
