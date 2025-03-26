@@ -1,26 +1,15 @@
 import { app, BrowserWindow } from "electron";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { attachTitlebarToWindow, setupTitlebar } from "custom-electron-titlebar/main";
 import contextMenu from "electron-context-menu";
+import icon from "../src/assets/react.svg";
 
 contextMenu({
 	showSaveImageAs: true,
 });
 
-setupTitlebar();
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// The built directory structure
-//
-// ├─┬─┬ dist
-// │ │ └── index.html
-// │ │
-// │ ├─┬ dist-electron
-// │ │ ├── main.js
-// │ │ └── preload.mjs
-// │
 process.env.APP_ROOT = path.join(__dirname, "..");
 
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
@@ -30,23 +19,24 @@ export const RENDERER_DIST = path.join(process.env.APP_ROOT, "dist");
 
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, "public") : RENDERER_DIST;
 
-let win: BrowserWindow | null;
-
-function createWindow() {
-	win = new BrowserWindow({
+function createWindow(): void {
+	const win = new BrowserWindow({
 		icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
 		width: 1075,
 		height: 900,
-		frame: false,
-		transparent: true,
-		titleBarStyle: "hidden",
-		titleBarOverlay: true,
+		show: false,
+		autoHideMenuBar: true,
+		...(process.platform === "linux" ? { icon } : {}),
 		webPreferences: {
 			nodeIntegration: true,
-			contextIsolation: false,
+			contextIsolation: true,
 			sandbox: false,
 			preload: path.join(__dirname, "preload.mjs"),
 		},
+	});
+
+	win.on("ready-to-show", () => {
+		win.show();
 	});
 
 	// Test active push message to Renderer-process.
@@ -60,7 +50,6 @@ function createWindow() {
 		// win.loadFile('dist/index.html')
 		win.loadFile(path.join(RENDERER_DIST, "index.html"));
 	}
-	attachTitlebarToWindow(win);
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -69,7 +58,6 @@ function createWindow() {
 app.on("window-all-closed", () => {
 	if (process.platform !== "darwin") {
 		app.quit();
-		win = null;
 	}
 });
 
