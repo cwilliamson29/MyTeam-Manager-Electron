@@ -1,8 +1,9 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, dialog, ipcMain } from "electron";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import contextMenu from "electron-context-menu";
 import icon from "../src/assets/react.svg";
+import { autoUpdater } from "electron-updater";
 
 contextMenu({
 	showSaveImageAs: true,
@@ -69,4 +70,34 @@ app.on("activate", () => {
 	}
 });
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+	createWindow();
+
+	autoUpdater.checkForUpdates();
+});
+autoUpdater.on("update-available", () => {
+	dialog
+		.showMessageBox({
+			type: "info",
+			buttons: ["Restart", "Later"],
+			title: "Application Update",
+			message: "A new version is available",
+			detail: "Restart the application to apply the updates.",
+		})
+		.then((returnValue) => {
+			if (returnValue.response === 0) {
+				autoUpdater.quitAndInstall();
+			}
+		});
+});
+
+ipcMain.handle("dialog:open", async () => {
+	return await dialog.showMessageBox({
+		type: "info",
+		message: "This is a custom message box",
+		buttons: ["OK", "Cancel"],
+		defaultId: 0,
+		cancelId: 1,
+		icon: path.join(__dirname, "assets/react.png"),
+	});
+});

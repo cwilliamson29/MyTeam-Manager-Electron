@@ -3,6 +3,13 @@
   "private": true,
   "version": "0.9.2",
   "type": "module",
+  "author": "CoderChris.Dev",
+  "license": "ISC",
+  "repository": "https://hithub.com/cwilliamson29/MyTeam-Manager-Electron",
+  "publish": {
+    "provider": "github",
+    "releaseType": "release"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
@@ -19,6 +26,7 @@
     "dexie": "^4.0.11",
     "dexie-react-hooks": "^1.1.7",
     "electron-context-menu": "^4.0.5",
+    "electron-updater": "^6.3.9",
     "immer": "^10.1.1",
     "prettier": "^3.5.1",
     "react": "^18.2.0",
