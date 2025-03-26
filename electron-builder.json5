@@ -42,5 +42,10 @@
       "AppImage"
     ],
     "artifactName": "${productName}-Linux-${version}.${ext}"
+  },
+  "publish": {
+    "provider": "github",
+    "owner": "cwilliamson29",
+    "repo": "https://github.com/cwilliamson29/MyTeam-Manager-Electron"
   }
 }

@@ -32,10 +32,3 @@ contextBridge.exposeInMainWorld("electron", {
 		},
 	},
 });
-
-contextBridge.exposeInMainWorld("updater", {
-	show: false,
-	// @ts-ignore
-	setShow: (val: boolean) => (this.show = val),
-	showDialog: async () => ipcRenderer.invoke("dialog:open"),
-});

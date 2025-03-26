@@ -1,14 +1,15 @@
 {
   "name": "mtm",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "author": "CoderChris.Dev",
   "license": "ISC",
   "repository": "https://hithub.com/cwilliamson29/MyTeam-Manager-Electron",
   "publish": {
     "provider": "github",
-    "releaseType": "release"
+    "owner": "cwilliamson29",
+    "url": "https://github.com/cwilliamson29/MyTeam-Manager-Electron"
   },
   "scripts": {
     "dev": "vite",
