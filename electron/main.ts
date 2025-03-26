@@ -74,21 +74,22 @@ app.whenReady().then(() => {
 	createWindow();
 
 	autoUpdater.checkForUpdates();
-});
-autoUpdater.on("update-available", () => {
-	dialog
-		.showMessageBox({
-			type: "info",
-			buttons: ["Restart", "Later"],
-			title: "Application Update",
-			message: "A new version is available",
-			detail: "Restart the application to apply the updates.",
-		})
-		.then((returnValue) => {
-			if (returnValue.response === 0) {
-				autoUpdater.quitAndInstall();
-			}
-		});
+
+	autoUpdater.on("update-available", () => {
+		dialog
+			.showMessageBox({
+				type: "info",
+				buttons: ["Restart", "Later"],
+				title: "Application Update",
+				message: "A new version is available",
+				detail: "Restart the application to apply the updates.",
+			})
+			.then((returnValue) => {
+				if (returnValue.response === 0) {
+					autoUpdater.quitAndInstall();
+				}
+			});
+	});
 });
 
 ipcMain.handle("dialog:open", async () => {
