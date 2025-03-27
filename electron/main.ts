@@ -4,6 +4,9 @@ import path from "node:path";
 import contextMenu from "electron-context-menu";
 import icon from "../src/assets/react.svg";
 import { autoUpdater } from "electron-updater";
+import { log } from "electron-log/node";
+
+autoUpdater.autoDownload = false;
 
 contextMenu({
 	showSaveImageAs: true,
@@ -35,7 +38,7 @@ function createWindow(): void {
 			preload: path.join(__dirname, "preload.mjs"),
 		},
 	});
-
+	console.log("here");
 	win.on("ready-to-show", () => {
 		win.show();
 	});
@@ -72,23 +75,57 @@ app.on("activate", () => {
 
 app.whenReady().then(() => {
 	createWindow();
-
 	autoUpdater.checkForUpdates();
+	log(autoUpdater.on("checking-for-update", () => ""));
+
+	autoUpdater.on("checking-for-update", () => {
+		dialog.showMessageBox({
+			type: "info",
+			title: "Checking for Updates",
+			message: "Checking for updates...",
+		});
+	});
 
 	autoUpdater.on("update-available", () => {
-		dialog
-			.showMessageBox({
+		dialog.showMessageBox(
+			{
+				// @ts-ignore
 				type: "info",
+				title: "Update Available",
+				message: "A new version of the app is available. Do you want to update now?",
+				buttons: ["Update", "No"],
+			},
+			(index: any) => {
+				if (index === 0) {
+					autoUpdater.downloadUpdate();
+				}
+			},
+		);
+	});
+
+	autoUpdater.on("download-progress", (progressObj) => {
+		let log_message = "Download speed: " + progressObj.bytesPerSecond;
+		log_message = log_message + " - Downloaded " + progressObj.percent + "%";
+		log_message = log_message + " (" + progressObj.transferred + "/" + progressObj.total + ")";
+		console.log(log_message);
+	});
+
+	// @ts-ignore
+	autoUpdater.on("update-downloaded", (info) => {
+		dialog.showMessageBox(
+			{
+				// @ts-ignore
+				type: "info",
+				title: "Update Downloaded",
+				message: "The new version has been downloaded. It will be installed on restart. Do you want to restart now?",
 				buttons: ["Restart", "Later"],
-				title: "Application Update",
-				message: "A new version is available",
-				detail: "Restart the application to apply the updates.",
-			})
-			.then((returnValue) => {
-				if (returnValue.response === 0) {
+			},
+			(index: any) => {
+				if (index === 0) {
 					autoUpdater.quitAndInstall();
 				}
-			});
+			},
+		);
 	});
 });
 
