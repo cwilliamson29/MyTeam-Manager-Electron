@@ -6,6 +6,8 @@ import icon from "../src/assets/react.svg";
 import { autoUpdater } from "electron-updater";
 import { log } from "electron-log/node";
 
+log.transports.file.level = "debug";
+autoUpdater.logger = log;
 autoUpdater.autoDownload = false;
 
 contextMenu({
@@ -76,7 +78,7 @@ app.on("activate", () => {
 app.whenReady().then(() => {
 	createWindow();
 	autoUpdater.checkForUpdates();
-	log(autoUpdater.on("checking-for-update", () => ""));
+	log(autoUpdater);
 
 	autoUpdater.on("checking-for-update", () => {
 		dialog.showMessageBox({
