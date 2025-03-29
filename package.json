@@ -6,12 +6,7 @@
   "author": "CoderChris.Dev",
   "license": "ISC",
   "description": "For managing employees schedules, coachings, and warnings.",
-  "repository": "https://hithub.com/cwilliamson29/MyTeam-Manager-Electron",
-  "publish": {
-    "provider": "github",
-    "owner": "cwilliamson29",
-    "url": "https://github.com/cwilliamson29/MyTeam-Manager-Electron"
-  },
+  "repository": "https://github.com/cwilliamson29/MyTeam-Manager-Electron",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
