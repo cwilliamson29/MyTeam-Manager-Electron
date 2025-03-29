@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, ipcMain } from "electron";
+import { app, BrowserWindow, dialog } from "electron";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import contextMenu from "electron-context-menu";
@@ -82,7 +82,7 @@ app.whenReady().then(() => {
 	//log(autoUpdater.checkForUpdates());
 
 	autoUpdater.on("checking-for-update", () => {
-		log("inside checking for update")
+		//log("inside checking for update")
 		dialog.showMessageBox({
 			type: "info",
 			title: "Checking for Updates",
@@ -91,7 +91,7 @@ app.whenReady().then(() => {
 	});
 	log("before update-available");
 	autoUpdater.on("update-available", () => {
-		log("inside update-available, but befor dia");
+		//log("inside update-available, but befor dia");
 		dialog
 			.showMessageBox({
 				type: "question",
@@ -103,9 +103,7 @@ app.whenReady().then(() => {
 				log(response.response + ":is the index");
 				//log(":is the index");
 				if (response.response === 0) {
-					log("inside if for download dialog");
-					//log(autoUpdater.downloadUpdate())
-					autoUpdater.downloadUpdate();
+					autoUpdater.downloadUpdate().catch((err)=>log(err));
 				}
 			});
 	});
@@ -118,30 +116,20 @@ app.whenReady().then(() => {
 	});
 
 	autoUpdater.on("update-downloaded", () => {
-		log("inside updater for downloaded");
+		//log("inside updater for downloaded");
 		dialog
 			.showMessageBox({
 				type: "info",
 				title: "Update Downloaded",
 				message: "The new version has been downloaded. It will be installed on restart. Do you want to restart now?",
-				buttons: ["Restart", "Later"],
+				buttons: ["Relaunch", "Later"],
 			})
 			.then((response) => {
-				log(response + " :update downloaded");
-				// if (index === 0) {
-				// 	autoUpdater.quitAndInstall();
-				// }
+				//log(response + " :update downloaded");
+				if (response.response === 0) {
+					autoUpdater.quitAndInstall()
+				}
 			});
 	});
 });
 
-ipcMain.handle("dialog:open", async () => {
-	return await dialog.showMessageBox({
-		type: "info",
-		message: "This is a custom message box",
-		buttons: ["OK", "Cancel"],
-		defaultId: 0,
-		cancelId: 1,
-		icon: path.join(__dirname, "assets/react.png"),
-	});
-});
