@@ -77,12 +77,12 @@ app.on("activate", () => {
 
 app.whenReady().then(() => {
 	createWindow();
-	autoUpdater.checkForUpdates();
-
+	autoUpdater.checkForUpdates().catch((err)=>log(err));
+	//autoUpdater.checkForUpdatesAndNotify().catch((err)=>log(err))
 	//log(autoUpdater.checkForUpdates());
 
 	autoUpdater.on("checking-for-update", () => {
-		//dialog.
+		log("inside checking for update")
 		dialog.showMessageBox({
 			type: "info",
 			title: "Checking for Updates",
@@ -91,7 +91,7 @@ app.whenReady().then(() => {
 	});
 	log("before update-available");
 	autoUpdater.on("update-available", () => {
-		//log("inside update-available, but befor dia");
+		log("inside update-available, but befor dia");
 		dialog
 			.showMessageBox({
 				type: "question",
@@ -117,8 +117,7 @@ app.whenReady().then(() => {
 		log(log_message);
 	});
 
-	// @ts-ignore
-	autoUpdater.on("update-downloaded", (info) => {
+	autoUpdater.on("update-downloaded", () => {
 		log("inside updater for downloaded");
 		dialog
 			.showMessageBox({
