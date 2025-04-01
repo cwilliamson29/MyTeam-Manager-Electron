@@ -77,12 +77,9 @@ app.on("activate", () => {
 
 app.whenReady().then(() => {
 	createWindow();
-	autoUpdater.checkForUpdates().catch((err)=>log(err));
-	//autoUpdater.checkForUpdatesAndNotify().catch((err)=>log(err))
-	//log(autoUpdater.checkForUpdates());
+	autoUpdater.checkForUpdates().catch((err) => log(err));
 
 	autoUpdater.on("checking-for-update", () => {
-		//log("inside checking for update")
 		dialog.showMessageBox({
 			type: "info",
 			title: "Checking for Updates",
@@ -91,19 +88,18 @@ app.whenReady().then(() => {
 	});
 	log("before update-available");
 	autoUpdater.on("update-available", () => {
-		//log("inside update-available, but befor dia");
 		dialog
 			.showMessageBox({
 				type: "question",
 				title: "Update Available",
 				message: "A new version of the app is available. Do you want to update now?",
-				buttons: ["Update", "No"],
+				buttons: ["Update Now", "Later"],
 			})
 			.then((response) => {
 				log(response.response + ":is the index");
 				//log(":is the index");
 				if (response.response === 0) {
-					autoUpdater.downloadUpdate().catch((err)=>log(err));
+					autoUpdater.downloadUpdate().catch((err) => log(err));
 				}
 			});
 	});
@@ -116,20 +112,18 @@ app.whenReady().then(() => {
 	});
 
 	autoUpdater.on("update-downloaded", () => {
-		//log("inside updater for downloaded");
 		dialog
 			.showMessageBox({
 				type: "info",
 				title: "Update Downloaded",
-				message: "The new version has been downloaded. It will be installed on restart. Do you want to restart now?",
+				message: "The new version has been downloaded. It will be installed on relaunch. Do you want to relaunch now?",
 				buttons: ["Relaunch", "Later"],
 			})
 			.then((response) => {
 				//log(response + " :update downloaded");
 				if (response.response === 0) {
-					autoUpdater.quitAndInstall()
+					autoUpdater.quitAndInstall();
 				}
 			});
 	});
 });
-

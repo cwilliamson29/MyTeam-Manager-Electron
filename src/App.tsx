@@ -1,6 +1,6 @@
 import EmployeeListTitle from "./components/EmployeeListTitle";
 import { useEffect, useLayoutEffect } from "react";
-import SettingsBar from "./components/SettingsBar";
+import TopBar from "./components/TopBar.tsx";
 import { DisplayEmployees } from "./components/DisplayEmployees.tsx";
 import { useAppLoad, useAppSettings, useEmployeeData } from "./state/store.ts";
 import Footer from "./components/Footer.tsx";
@@ -32,7 +32,7 @@ function App() {
 	// Usage
 	return (
 		<div className="container-fluid">
-			<SettingsBar />
+			<TopBar />
 			<EmployeeListTitle />
 			<DisplayEmployees />
 			<Footer />
